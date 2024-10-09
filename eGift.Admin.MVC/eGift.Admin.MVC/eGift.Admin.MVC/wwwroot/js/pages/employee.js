@@ -52,7 +52,8 @@ $(document).ready(function () {
 
     // Delete employee record using sweetalert
     $("#employee-delete").on('click', function () {
-        let id = $(this).attr('data-id')
+        let id = $(this).attr('data-id');
+        let loginUserId = $(this).attr('data-login-id');
         //v2.1.2
         swal({
             title: 'Are you sure?',
@@ -66,7 +67,7 @@ $(document).ready(function () {
             if (result) {
                 let input = {
                     id: parseInt(id),
-                    loginUserId: parseInt(id)
+                    loginUserId: parseInt(loginUserId)
                 }
                 $.ajax({
                     url: '/Employee/Delete',

@@ -5,6 +5,7 @@
     ViewData["Title"] = "Employee";
     ViewData["SubTitle"] = "Delete";
     var defaultImageUrl = Url.Content("~/images/default/user_default_image.png");
+    int loginUserId = 1;//After login from session
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -112,7 +113,7 @@
 
     @* <form asp-action="Delete" method="post"> *@
     <div class="col-md-6">
-        <input id="employee-delete" type="button" value="Delete" data-id="@Model.ID" class="btn btn-danger" /> |
+        <input id="employee-delete" type="button" value="Delete" data-id="@Model.ID" data-login-id="@loginUserId" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </div>
     @* </form> *@
