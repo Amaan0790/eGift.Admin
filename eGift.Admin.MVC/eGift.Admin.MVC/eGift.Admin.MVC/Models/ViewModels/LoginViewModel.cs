@@ -17,40 +17,39 @@ namespace eGift.Admin.MVC.Models.ViewModels
         public int ID { get; set; }
 
         [Display(Name = "Ref")]
-        [Required]
         public int RefId { get; set; }
 
         [Display(Name = "RefType")]
-        [Required]
-        public string RefType { get; set; }
+        public string? RefType { get; set; }
 
-        [Display(Name = "UserName")]
-        [Required]
+        [Display(Name = "User Name")]
+        [Required(ErrorMessage = "This field is required.")]
         public string UserName { get; set; }
 
         [Display(Name = "Password")]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$",
+        ErrorMessage = "• At least one lowercase letter.<br/>• At least one uppercase letter.<br/>• At least one digit.<br/>• At least one special character.<br/>• Must be at least 8 characters long.")]
         public string Password { get; set; }
 
         [Display(Name = "Role")]
-        [Required]
         public int RoleId { get; set; }
 
-        [Display(Name = "IsActive")]
-        [Required]
+        [Display(Name = "Active")]
         public bool IsActive { get; set; } = true;
 
-        [Display(Name = "LogInDate")]
+        [Display(Name = "Login Date")]
         public DateTime? LogInDate { get; set; }
 
-        [Display(Name = "LastLogInDate")]
+        [Display(Name = "Last Login Date")]
         public DateTime? LastLogInDate { get; set; }
 
         #endregion Data Models
 
         #region View Models
 
-        [Display(Name = "ConfirmPassword")]
+        [Display(Name = "Confirm Password")]
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string? ConfirmPassword { get; set; }
 
         #endregion View Models

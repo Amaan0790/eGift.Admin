@@ -1,0 +1,111 @@
+﻿@model eGift.Admin.MVC.Models.ListViewModels.EmployeeListViewModel
+@using eGift.Admin.MVC.Helpers
+@{
+    ViewData["Title"] = "Employee";
+    ViewData["SubTitle"] = "List";
+    int index = 0;
+    var defaultImageUrl = Url.Content("~/images/default/user_default_image.png");
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>@ViewData["SubTitle"]</h4>
+<hr />
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table id="employee-table" class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.GenderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.Mobile)
+            </th>             
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.RoleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.IsDefault)
+            </th>   
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeModel.ProfileImageData)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EmployeeList)
+        {
+            index++;
+            <tr>
+                <td>
+                    @index
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @item.DateOfBirth.ToDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GenderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>                
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDefault)
+                </td>
+                <td>
+                    @if(item.ProfileImageData != null)
+                    {
+                        <img class="index-image" src="data:image/*;base64,@Convert.ToBase64String(item.ProfileImageData)" />
+                    }
+                    else
+                    {
+                        <img class="index-image" src="@defaultImageUrl" alt="Profile Image" />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" title="Edit" class="text-decoration-none me-2">
+                        <i class="fa-solid fa-pen text-dark"></i>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.ID" title="Details" class="text-decoration-none me-2">
+                        <i class="fa-solid fa-eye text-dark"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.ID" title="Delete" class="text-decoration-none">
+                        <i class="fa-solid fa-trash text-dark"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/pages/employee.js"></script>
+}

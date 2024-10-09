@@ -1,18 +1,55 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json
+@{
+    ViewData["ApplicationName"] = "eGift.Admin";
+    int inceptionYear = 2024;
+    int currentYear = DateTime.Now.Year;
+    //var toastrModel = JsonConvert.SerializeObject(TempData["ToastrModel"]);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - eGift.Admin.MVC</title>
+    <title>@ViewData["Title"] - @ViewData["ApplicationName"]</title>
+
+    <!--CSS-->
+    <!--Bootstrap Css-->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!--Datatable Css-->
+    <link href="~/lib/datatable/datatable.css" rel="stylesheet" />
+    <!--Font-Awesome Css-->
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <!--Site Css-->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!--Styles Css-->
     <link rel="stylesheet" href="~/eGift.Admin.MVC.styles.css" asp-append-version="true" />
+    <!--Toastr Css-->
+    <link href="~/lib/toastr.js/toastr.min.css" rel="stylesheet" />
+    <!--Common Css-->
+    <link href="~/css/common.css" rel="stylesheet" />
+
+    <!--JS-->
+    <!--Jquery Js-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!--Datatable Js-->
+    <script src="~/lib/datatable/js/datatable.min.js"></script>
+    <script src="~/lib/datatable/datatable.js"></script>
+    <!--Bootstrap Js-->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!--Toastr Js-->
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
+    <!--Sweetalert Js-->
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <!--Site Js-->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!--Common Js-->
+    <script src="~/js/common.js"></script>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">eGift.Admin.MVC</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@ViewData["ApplicationName"]</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,7 +60,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
                         </li>
                     </ul>
                 </div>
@@ -38,12 +75,21 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - eGift.Admin.MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @(inceptionYear == currentYear ? currentYear : inceptionYear + "-" + currentYear) - @ViewData["ApplicationName"] - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //var toastrJson = Html.Raw(JsonConvert.SerializeObject(TempData["ToastrModel"]));
+            var toastrJson = '@Html.Raw(TempData["ToastrModel"])';
+            console.log(toastrJson);
+            if (toastrJson != "") {
+                var toastrObject = JSON.parse(toastrJson);
+                console.log(toastrObject);
+                ShowToastrMessages(toastrObject.Type, toastrObject.Message);
+            }
+        });
+    </script>
 </body>
 </html>

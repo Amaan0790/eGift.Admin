@@ -9,6 +9,7 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public EmployeeListViewModel()
         {
             EmployeeList = new List<EmployeeViewModel>();
+            EmployeeModel = new EmployeeViewModel();
         }
 
         #endregion Constructors
@@ -18,5 +19,9 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public List<EmployeeViewModel> EmployeeList { get; set; }
 
         #endregion List View Models
+
+        #region Reference View Models
+        public EmployeeViewModel EmployeeModel { get; set; }
+        #endregion
     }
 }

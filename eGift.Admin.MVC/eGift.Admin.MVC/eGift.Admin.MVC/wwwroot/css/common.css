@@ -1,0 +1,46 @@
+﻿dl {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+dt {
+    width: 150px; /* Set a width for your term */
+    font-weight: bold;
+}
+
+dd {
+    margin: 0;
+    padding-left: 10px;
+}
+
+.form-group {
+    margin-bottom: 1rem !important;
+}
+
+label.required::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+}
+
+.ml-auto {
+    margin-left: auto !important;
+}
+
+.mr-auto {
+    margin-right: auto !important;
+}
+
+.align-text-center {
+    text-align: center !important;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+}
+
+.index-image{
+    width: 48px;
+    height: 48px;
+}

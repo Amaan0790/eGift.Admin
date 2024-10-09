@@ -1,0 +1,115 @@
+﻿@model eGift.Admin.MVC.Models.ViewModels.EmployeeViewModel
+@using eGift.Admin.MVC.Helpers
+
+@{
+    ViewData["Title"] = "Employee";
+    ViewData["SubTitle"] = "Details";
+    var defaultImageUrl = Url.Content("~/images/default/user_default_image.png");
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>@ViewData["SubTitle"]</h4>
+<hr />
+<div class="row">
+    <div class="col-sm-4">
+        <div>
+            <dl class="col-sm-12">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.DateOfBirth)
+                </dt>
+                <dd class="col-sm-8">
+                    @Model.DateOfBirth.ToDateString()
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Age)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Age)
+                </dd>
+                
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Mobile)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Mobile)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+                @* <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.AddressName)
+                </dt>
+                <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.AddressName)
+                </dd> *@
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.GenderName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.GenderName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.RoleName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.RoleName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IsActive)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.IsDefault)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IsDefault)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="mb-2 align-text-center">
+            @if (Model.ProfileImageData == null)
+            {
+                <img id="profile-image-preview" src="@defaultImageUrl" class="profile-image" />
+            }
+            else
+            {
+                <!--How to bind byte array in img tag-->
+                <img id="profile-image-preview" src="data:image/*;base64,@Convert.ToBase64String(Model.ProfileImageData)" class="profile-image" />
+            }
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID" title="Edit" class="btn btn-primary">
+        Edit
+    </a> |
+    <a asp-action="Index">Back to List</a>
+</div>
