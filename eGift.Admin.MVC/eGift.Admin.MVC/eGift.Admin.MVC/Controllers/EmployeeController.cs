@@ -254,7 +254,7 @@ namespace eGift.Admin.MVC.Controllers
                     var employeeModel = JsonConvert.DeserializeObject<EmployeeViewModel>(response);
 
                     //string loginResponse = WebAPIHelper.GetWebAPIClient($"Login?refId={id}&refType={Role.Employee.ToString()}").Result;
-                    string loginResponse = WebAPIHelper.GetWebAPIClient($"Login/{id}").Result;
+                    string loginResponse = WebAPIHelper.GetWebAPIClient($"Login/GetEmployeeLogin/{id}").Result;
                     if (!string.IsNullOrEmpty(loginResponse))
                     {
                         var existingLoginModel = JsonConvert.DeserializeObject<LoginViewModel>(loginResponse);
