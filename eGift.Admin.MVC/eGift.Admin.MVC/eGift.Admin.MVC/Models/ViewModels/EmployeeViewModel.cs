@@ -58,10 +58,10 @@ namespace eGift.Admin.MVC.Models.ViewModels
         [Display(Name = "Profile Image")]
         public byte[]? ProfileImageData { get; set; }
 
-        [Display(Name = "Role")]        
+        [Display(Name = "Role")]
         public int RoleId { get; set; }
 
-        [Display(Name = "Default")]        
+        [Display(Name = "Default")]
         public bool IsDefault { get; set; } = false;
 
         #endregion Data Models
@@ -88,11 +88,15 @@ namespace eGift.Admin.MVC.Models.ViewModels
         #endregion View Models
 
         #region Reference View Models
+
         public LoginViewModel LoginModel { get; set; }
+
         #endregion
 
         #region Dropdown Lists
+
         public SelectList GenderList { get; set; }
+
         #endregion
     }
 }

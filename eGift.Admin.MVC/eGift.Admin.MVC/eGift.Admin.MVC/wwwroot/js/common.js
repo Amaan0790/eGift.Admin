@@ -15,7 +15,6 @@ function ShowToastrMessages(type, message) {
             break;
         case 4:
             toastr.error(message, "Error!");
-            break;        
+            break;
     }
-    
 }

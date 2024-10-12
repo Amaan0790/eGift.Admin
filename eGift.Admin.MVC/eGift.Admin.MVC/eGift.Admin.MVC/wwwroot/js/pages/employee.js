@@ -1,5 +1,6 @@
 ﻿// On Page Load
 $(document).ready(function () {
+
     // Employee datatable
     $("#employee-table").DataTable({
         "paging": true,
@@ -18,6 +19,7 @@ $(document).ready(function () {
             var today = new Date();
             var age = today.getFullYear() - dob.getFullYear();
             var monthDiff = today.getMonth() - dob.getMonth();
+
             // Adjust if the birthday hasn't happened yet this year
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
                 age--;
@@ -47,13 +49,13 @@ $(document).ready(function () {
         $('#profile-image-preview').attr('src', '/images/default/user_default_image.png'); // Reset to default image
         $('#profile-image').val(''); // Clear the file input
         $('#IsClear').val(true); // Set IsClear flag
-
     });
 
     // Delete employee record using sweetalert
     $("#employee-delete").on('click', function () {
         let id = $(this).attr('data-id');
         let loginUserId = $(this).attr('data-login-id');
+
         //v2.1.2
         swal({
             title: 'Are you sure?',

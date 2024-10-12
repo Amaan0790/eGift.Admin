@@ -1,7 +1,6 @@
 "use strict";
 
 var DataTable = function (table, opts) {
-
     this.options = {};
     this.table = table;
     this.currentPage = 0;
@@ -11,16 +10,16 @@ var DataTable = function (table, opts) {
     for (var k in DataTable.defaultOptions) {
         if (DataTable.defaultOptions.hasOwnProperty(k)) {
             if (opts.hasOwnProperty(k)) {
-                this.options[k] = opts[k] ;
+                this.options[k] = opts[k];
             }
             else {
-                this.options[k] = DataTable.defaultOptions[k] ;
+                this.options[k] = DataTable.defaultOptions[k];
             }
         }
     }
 
     if (opts.hasOwnProperty('data')) {
-        this.options.data = opts.data ;
+        this.options.data = opts.data;
     }
 
     /* If nb columns not specified, count the number of column from thead. */
@@ -53,10 +52,10 @@ var DataTable = function (table, opts) {
 
     /* Compatibility issue (forceStrings => No defined data types). */
     if (this.options.forceStrings) {
-        this.options.dataTypes = false ;
+        this.options.dataTypes = false;
     }
 
-    var ths = this.table.tHead.rows[0].cells ;
+    var ths = this.table.tHead.rows[0].cells;
 
     if (!this.table.tBodies[0]) {
         this.table.tBodies[0] = document.createElement('tbody');
@@ -86,7 +85,7 @@ var DataTable = function (table, opts) {
                 }
                 else {
                     for (var i = 0; i < this.options.data.size;
-                         i += this.options.pageSize * this.options.pagingNumberOfPages) {
+                        i += this.options.pageSize * this.options.pagingNumberOfPages) {
                         this.getAjaxDataAsync(i);
                     }
                 }
@@ -102,37 +101,37 @@ var DataTable = function (table, opts) {
     else if (this.table.tBodies[0].rows.length > 0) {
         this.data = [];
         var rows = this.table.tBodies[0].rows;
-        var nCols = rows[0].cells.length ;
+        var nCols = rows[0].cells.length;
         for (var i = 0; i < rows.length; ++i) {
-            this.data.push ([]) ;
+            this.data.push([]);
         }
-        for (var j = 0 ; j < nCols ; ++j) {
-            var dt = function (x) { return x ; } ;
+        for (var j = 0; j < nCols; ++j) {
+            var dt = function (x) { return x; };
             if (this.options.dataTypes instanceof Array) {
                 switch (this.options.dataTypes[j]) {
-                case 'int':
-                    dt = parseInt ;
-                    break ;
-                case 'float':
-                case 'double':
-                    dt = parseFloat ;
-                    break ;
-                case 'date':
-                case 'datetime':
-                    dt = function (x) { return new Date(x) ; } ;
-                    break ;
-                case false:
-                case true:
-                case 'string':
-                case 'str':
-                    dt = function (x) { return x ; } ;
-                    break ;
-                default:
-                    dt = this.options.dataTypes[j] ;
+                    case 'int':
+                        dt = parseInt;
+                        break;
+                    case 'float':
+                    case 'double':
+                        dt = parseFloat;
+                        break;
+                    case 'date':
+                    case 'datetime':
+                        dt = function (x) { return new Date(x); };
+                        break;
+                    case false:
+                    case true:
+                    case 'string':
+                    case 'str':
+                        dt = function (x) { return x; };
+                        break;
+                    default:
+                        dt = this.options.dataTypes[j];
                 }
             }
             for (var i = 0; i < rows.length; ++i) {
-                this.data[i].push(dt(rows[i].cells[j].innerHTML.trim())) ;
+                this.data[i].push(dt(rows[i].cells[j].innerHTML.trim()));
             }
         }
         if (this.options.dataTypes === true) {
@@ -163,11 +162,9 @@ var DataTable = function (table, opts) {
 
     this.triggerSort();
     this.filter();
-
 };
 
 DataTable.prototype = {
-
     constructor: DataTable,
 
     /**
@@ -228,7 +225,6 @@ DataTable.prototype = {
         this.removeNode(this.loadingDiv);
     },
 
-
     /**
      *
      * Update the loading divs with the current % of data load (according
@@ -275,58 +271,58 @@ DataTable.prototype = {
             return function () {
                 if (this.readyState == 4) {
                     switch (this.status) {
-                    case 200:
-                        if (recursive) {
-                            if (this.response.length > 0) {
-                                datatable.syncData.data =
-                                    datatable.syncData.data.concat(this.response);
-                                datatable.getAjaxDataAsync(start + datatable.options.pageSize * datatable.options.pagingNumberOfPages, true);
+                        case 200:
+                            if (recursive) {
+                                if (this.response.length > 0) {
+                                    datatable.syncData.data =
+                                        datatable.syncData.data.concat(this.response);
+                                    datatable.getAjaxDataAsync(start + datatable.options.pageSize * datatable.options.pagingNumberOfPages, true);
+                                }
+                                else {
+                                    var syncData = datatable.syncData;
+                                    delete datatable.syncData;
+                                    datatable.data = syncData.data;
+                                    datatable.addRows(syncData.toAdd);
+                                    syncData.toDelete.forEach(function (e) {
+                                        if (e instanceof Function) {
+                                            datatable.deleteAll(e);
+                                        }
+                                        else {
+                                            datatable.deleteRow(e);
+                                        }
+                                    });
+                                    for (var id in syncData.toUpdate) {
+                                        datatable.updateRow(id, syncData.toUpdate[id]);
+                                    }
+
+                                    datatable.sort(true);
+                                    datatable.setRefreshTimeout();
+                                }
                             }
                             else {
-                                var syncData = datatable.syncData;
-                                delete datatable.syncData;
-                                datatable.data = syncData.data;
-                                datatable.addRows(syncData.toAdd);
-                                syncData.toDelete.forEach(function (e) {
-                                    if (e instanceof Function) {
-                                        datatable.deleteAll(e);
-                                    }
-                                    else {
-                                        datatable.deleteRow(e);
-                                    }
-                                });
-                                for (var id in syncData.toUpdate) {
-                                    datatable.updateRow(id, syncData.toUpdate[id]);
-                                }
-
+                                datatable.data = datatable.data.concat(this.response);
+                                datatable.updateLoadingDivs();
                                 datatable.sort(true);
-                                datatable.setRefreshTimeout();
                             }
-                        }
-                        else {
-                            datatable.data = datatable.data.concat(this.response);
-                            datatable.updateLoadingDivs();
-                            datatable.sort(true);
-                        }
-                        break;
-                    case 404:
-                    case 500:
-                        console.log("ERROR: " + this.status + " - " + this.statusText);
-                        console.log(xhr);
-                        break;
-                    default:
-                        datatable.getAjaxDataAsync(start, recursive);
-                        break;
+                            break;
+                        case 404:
+                        case 500:
+                            console.log("ERROR: " + this.status + " - " + this.statusText);
+                            console.log(xhr);
+                            break;
+                        default:
+                            datatable.getAjaxDataAsync(start, recursive);
+                            break;
                     }
                 }
             }
-        } (this, start, recursive);
-        var url      = this.options.data.url ;
-        var limit    = this.options.pageSize * this.options.pagingNumberOfPages ;
+        }(this, start, recursive);
+        var url = this.options.data.url;
+        var limit = this.options.pageSize * this.options.pagingNumberOfPages;
         var formdata = new FormData();
         if (start !== true) {
             if (this.options.data.type.toUpperCase() == 'GET') {
-                url += '?start=' + start + '&limit=' + limit ;
+                url += '?start=' + start + '&limit=' + limit;
             }
             else {
                 formdata.append('offset', start);
@@ -375,7 +371,6 @@ DataTable.prototype = {
      *
      **/
     updatePaging: function () {
-
         /* Be carefull if you change something here, all this part calculate the first
            and last page to display. I choose to center the current page, it's more beautiful... */
 
@@ -431,7 +426,7 @@ DataTable.prototype = {
             }
             if (dataTable.options.pagingPages) {
                 var _childs = this.options.pagingPages.call(this.table, start,
-                                                            end, cp, first, last);
+                    end, cp, first, last);
                 if (_childs instanceof Array) {
                     childs = childs.concat(_childs);
                 }
@@ -478,27 +473,26 @@ DataTable.prototype = {
                             return;
                         }
                         switch (this.dataset.page) {
-                        case 'first':
-                            dataTable.loadPage(1);
-                            break;
-                        case 'prev':
-                            dataTable.loadPage(cp - 1);
-                            break;
-                        case 'next':
-                            dataTable.loadPage(cp + 1);
-                            break;
-                        case 'last':
-                            dataTable.loadPage(lp);
-                            break;
-                        default:
-                            dataTable.loadPage(parseInt(parseInt(this.dataset.page), 10));
+                            case 'first':
+                                dataTable.loadPage(1);
+                                break;
+                            case 'prev':
+                                dataTable.loadPage(cp - 1);
+                                break;
+                            case 'next':
+                                dataTable.loadPage(cp + 1);
+                                break;
+                            case 'last':
+                                dataTable.loadPage(lp);
+                                break;
+                            default:
+                                dataTable.loadPage(parseInt(parseInt(this.dataset.page), 10));
                         }
                     }, false);
                 }
                 this.pagingLists[i].appendChild(e);
             }, this);
         }
-
     },
 
     /**
@@ -515,9 +509,9 @@ DataTable.prototype = {
             this.filterIndex.length : this.currentStart + this.options.pageSize;
         for (var i = 0; i < this.counterDivs.length; ++i) {
             this.counterDivs[i].innerHTML = this.options.counterText.call(this.table, cp, lp,
-                                                                          first, last,
-                                                                          this.filterIndex.length,
-                                                                          this.data.length);
+                first, last,
+                this.filterIndex.length,
+                this.data.length);
         }
     },
 
@@ -546,7 +540,7 @@ DataTable.prototype = {
                     var vala = a[key], valb = b[key];
                     return asc ? s(vala, valb) : -s(vala, valb);
                 };
-            } (this.options.sort[key]);
+            }(this.options.sort[key]);
         }
         return function (a, b) {
             var vala = a[key], valb = b[key];
@@ -615,7 +609,7 @@ DataTable.prototype = {
                     datatable.filter();
                 }, 300);
             };
-        } (this);
+        }(this);
         input.onkeydown = input.onkeyup;
         var regexp = opt === 'regexp' || input.dataset.regexp;
         if (opt instanceof Function) {
@@ -814,7 +808,7 @@ DataTable.prototype = {
                 datatable.filterVals[field] = multiple ? val : ((empty && !val) ? allKeys : [val]);
                 datatable.filter();
             };
-        } (allKeys, multiple, empty, this);
+        }(allKeys, multiple, empty, this);
         if (opt instanceof Object && opt.fn instanceof Function) {
             this.addFilter(field, opt.fn);
             select.dataset.filterType = 'function';
@@ -826,7 +820,7 @@ DataTable.prototype = {
                     if (val == aKeys && !data) { return true; }
                     return datatable._isIn(data, val);
                 };
-            } (allKeys, this));
+            }(allKeys, this));
             select.dataset.filterType = 'default';
         }
         this.addClass(select, this.options.filterSelectClass);
@@ -842,6 +836,7 @@ DataTable.prototype = {
         this.filters = [];
         this.filterTags = [];
         this.filterVals = [];
+
         // Speical options if '*'
         if (this.options.filters === '*') {
             var nThs = this.table.tHead.rows[0].cells.length;
@@ -938,7 +933,6 @@ DataTable.prototype = {
         this.refresh();
     },
 
-
     /**
      *
      * Reset all filters.
@@ -962,7 +956,7 @@ DataTable.prototype = {
                     dtable.filterVals[field] = allKeys;
                 }
                 else if (e.dataset['default']
-                         && e.querySelector('option[value="' + e.dataset['default'] + '"]').length > 0) {
+                    && e.querySelector('option[value="' + e.dataset['default'] + '"]').length > 0) {
                     for (var i = 0; i < e.childNodes.length; ++i) {
                         e.childNodes[i].selected = e.childNodes[i].value == e.dataset['default'];
                     }
@@ -1086,11 +1080,9 @@ DataTable.prototype = {
     createSort: function () {
         var dataTable = this;
         if (!(this.options.sort instanceof Function)) {
-
             var countTH = 0;
             var ths = this.table.tHead.rows[0].cells;
             for (var i = 0; i < ths.length; ++i) {
-
                 if (ths[i].dataset.sort) {
                     dataTable.options.sort = true;
                 }
@@ -1142,9 +1134,7 @@ DataTable.prototype = {
                         dataTable.refresh();
                     }
                 }, false);
-
             }
-
         }
     },
 
@@ -1280,8 +1270,8 @@ DataTable.prototype = {
         this.sort();
         this.filter();
         this.currentStart = parseInt(this._index(this._index(data, this.data),
-                                                 this.filterIndex)
-                                     / this.options.pageSize, 10) * this.options.pageSize;
+            this.filterIndex)
+            / this.options.pageSize, 10) * this.options.pageSize;
         this.refresh();
     },
 
@@ -1302,8 +1292,8 @@ DataTable.prototype = {
         this.sort();
         this.filter();
         this.currentStart = parseInt(this._index(this._index(data, this.data),
-                                                 this.filterIndex)
-                                     / this.options.pageSize, 10) * this.options.pageSize;
+            this.filterIndex)
+            / this.options.pageSize, 10) * this.options.pageSize;
         this.refresh();
     },
 
@@ -1389,8 +1379,8 @@ DataTable.prototype = {
             this.sort();
             this.filter();
             this.currentStart = parseInt(this._index(this.indexOf(id),
-                                                     this.filterIndex)
-                                         / this.options.pageSize, 10) * this.options.pageSize;
+                this.filterIndex)
+                / this.options.pageSize, 10) * this.options.pageSize;
             this.refresh();
         }
     },
@@ -1445,12 +1435,12 @@ DataTable.prototype = {
             return;
         }
         for (var i = 0;
-             i < this.options.pageSize && i + this.currentStart < this.filterIndex.length;
-             i++) {
+            i < this.options.pageSize && i + this.currentStart < this.filterIndex.length;
+            i++) {
             var index = this.filterIndex[this.currentStart + i];
-            var data  = this.data[index];
+            var data = this.data[index];
             this.table.tBodies[0].appendChild(this.options.lineFormat.call(this.table,
-                                                                           index, data));
+                index, data));
         }
         this.options.afterRefresh.call(this.table);
     },
@@ -1541,11 +1531,10 @@ DataTable.prototype = {
         this.table.appendChild(document.createElement('tbody'));
         for (var i = 0; i < this.data.length; i++) {
             var index = this.filterIndex[this.currentStart + i];
-            var data  = this.data[index];
+            var data = this.data[index];
             this.table.tBodies[0].appendChild(this.options.lineFormat.call(this.table,
-                                                                           index, data));
+                index, data));
         }
-
     }
 };
 
@@ -1554,7 +1543,6 @@ DataTable.prototype = {
  *
  */
 DataTable.defaultOptions = {
-
     /**
      * Specify whether the type of the column should be deduced or not. If this option
      * is true, the type is not deduced (mainly here for backward compatibility).
@@ -1691,8 +1679,8 @@ DataTable.defaultOptions = {
      *
      */
     counterText: function (currentPage, totalPage,
-                           firstRow, lastRow,
-                           totalRow, totalRowUnfiltered) {
+        firstRow, lastRow,
+        totalRow, totalRowUnfiltered) {
         var counterText = 'Page ' + currentPage + ' on ' + totalPage
             + '. Showing ' + firstRow + ' to ' + lastRow + ' of ' + totalRow + ' entries';
         if (totalRow != totalRowUnfiltered) {

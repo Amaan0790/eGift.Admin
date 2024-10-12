@@ -3,6 +3,7 @@
 namespace eGift.Admin.MVC.Common
 {
     #region General
+
     public enum Gender
     {
         [Description("Male")]
@@ -11,9 +12,11 @@ namespace eGift.Admin.MVC.Common
         [Description("Female")]
         Female = 2
     }
+
     #endregion
 
     #region Project Specific
+
     public enum Role
     {
         [Description("Employee")]
@@ -22,11 +25,13 @@ namespace eGift.Admin.MVC.Common
         [Description("Customer")]
         Customer = 2
     }
+
     #endregion
 
     #region Toastr
 
     #region Toastr Type
+
     public enum ToastrType
     {
         [Description("Success")]
@@ -41,11 +46,14 @@ namespace eGift.Admin.MVC.Common
         [Description("Error")]
         Error = 4
     }
+
     #endregion
 
     #region Toastr Messages
+
     public enum ToastrMessages
     {
+        // Employee CRUD
         [Description("Employee created successfully.")]
         EmployeeCreateSuccess = 1,
 
@@ -63,7 +71,27 @@ namespace eGift.Admin.MVC.Common
 
         [Description("Unable to delete employee.")]
         EmployeeDeleteError = 6,
+
+        // Customer CRUD
+        [Description("Customer created successfully.")]
+        CustomerCreateSuccess = 7,
+
+        [Description("Unable to create customer.")]
+        CustomerCreateError = 8,
+
+        [Description("Customer edited successfully.")]
+        CustomerEditSuccess = 9,
+
+        [Description("Unable to edit customer.")]
+        CustomerEditError = 10,
+
+        [Description("Customer deleted successfully.")]
+        CustomerDeleteSuccess = 11,
+
+        [Description("Unable to delete customer.")]
+        CustomerDeleteError = 12
     }
+
     #endregion
 
     #endregion

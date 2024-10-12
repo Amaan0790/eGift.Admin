@@ -1,7 +1,6 @@
 (function ($) {
-
     "use strict";
-    
+
     function _toJqueryFn (fn, singleReturn) {
         if (typeof singleReturn === 'undefined') {
             singleReturn = false ;
@@ -100,5 +99,4 @@
         });
         return ret !== -1 ? ret : each;
     };
-
 } (window.jQuery));

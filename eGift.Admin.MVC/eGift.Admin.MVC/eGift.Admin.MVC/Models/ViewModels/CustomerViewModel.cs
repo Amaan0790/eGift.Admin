@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using eGift.Admin.MVC.Common;
+using eGift.Admin.MVC.Helpers;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace eGift.Admin.MVC.Models.ViewModels
 {
@@ -8,6 +11,8 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public CustomerViewModel()
         {
+            GenderList = EnumHelper.EnumNameToSelectList<Gender>();
+            LoginModel = new LoginViewModel();
         }
 
         #endregion Constructors
@@ -16,24 +21,25 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public int ID { get; set; }
 
-        [Display(Name = "FirstName")]
-        [Required]
+        [Display(Name = "First Name")]
+        [Required(ErrorMessage = "This field is required.")]
         public string FirstName { get; set; }
 
-        [Display(Name = "LastName")]
-        [Required]
+        [Display(Name = "Last Name")]
+        [Required(ErrorMessage = "This field is required.")]
         public string LastName { get; set; }
 
-        [Display(Name = "DateOfBirth")]
-        [Required]
-        public DateTime DateOfBirth { get; set; }
+        [Display(Name = "Date Of Birth")]
+        [Required(ErrorMessage = "This field is required.")]
+        [DataType(DataType.Date)]
+        public DateTime? DateOfBirth { get; set; }
 
         [Display(Name = "Gender")]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
         public int GenderId { get; set; }
 
         [Display(Name = "Mobile")]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
         public string Mobile { get; set; }
 
         [Display(Name = "Email")]
@@ -42,22 +48,20 @@ namespace eGift.Admin.MVC.Models.ViewModels
         [Display(Name = "Address")]
         public int? AddressId { get; set; }
 
-        [Display(Name = "IsActive")]
-        [Required]
+        [Display(Name = "Active")]
+        [Required(ErrorMessage = "This field is required.")]
         public bool IsActive { get; set; } = true;
 
-        [Display(Name = "ProfileImagePath")]
+        [Display(Name = "Profile Image")]
         public string? ProfileImagePath { get; set; }
 
-        [Display(Name = "ProfileImageData")]
+        [Display(Name = "Profile Image")]
         public byte[]? ProfileImageData { get; set; }
 
         [Display(Name = "Role")]
-        [Required]
         public int RoleId { get; set; }
 
         [Display(Name = "IsDefault")]
-        [Required]
         public bool IsDefault { get; set; } = false;
 
         #endregion Data Models
@@ -73,15 +77,26 @@ namespace eGift.Admin.MVC.Models.ViewModels
         [Display(Name = "Gender")]
         public string? GenderName { get; set; }
 
-        [Display(Name = "Quantity")]
-        public int? Quantity { get; set; }
-
         [Display(Name = "Role")]
         public string? RoleName { get; set; }
 
-        [Display(Name = "ProfileImage")]
+        [Display(Name = "Profile Image")]
         public IFormFile? ProfileImage { get; set; }
 
+        public bool IsClear { get; set; }
+
         #endregion View Models
+
+        #region Reference View Models
+
+        public LoginViewModel LoginModel { get; set; }
+
+        #endregion
+
+        #region Dropdown Lists
+
+        public SelectList GenderList { get; set; }
+
+        #endregion
     }
 }

@@ -7,6 +7,7 @@ namespace eGift.Admin.MVC.Helpers
     public static class EnumHelper
     {
         #region Parse Enum To Select List
+
         //Enum Name Value
         public static SelectList EnumNameToSelectList<TEnum>() where TEnum : struct, Enum
         {
@@ -39,9 +40,11 @@ namespace eGift.Admin.MVC.Helpers
 
             return new SelectList(enumValues, "Name", "Description");
         }
+
         #endregion
 
         #region Get Enum Description From Element
+
         // Helper method to get the description attribute or enum name
         public static string GetEnumDescription<TEnum>(this TEnum enumValue) where TEnum : Enum
         {
@@ -50,9 +53,11 @@ namespace eGift.Admin.MVC.Helpers
 
             return attributes.Length > 0 ? attributes[0].Description : enumValue.ToString();
         }
+
         #endregion
 
         #region Get Enum Element From Description
+
         // Extension method to get enum value from its description
         public static TEnum GetEnumFromDescription<TEnum>(this string description) where TEnum : struct, Enum
         {
@@ -75,6 +80,7 @@ namespace eGift.Admin.MVC.Helpers
 
             throw new ArgumentException($"No enum with description '{description}' found.");
         }
+
         #endregion
     }
 }

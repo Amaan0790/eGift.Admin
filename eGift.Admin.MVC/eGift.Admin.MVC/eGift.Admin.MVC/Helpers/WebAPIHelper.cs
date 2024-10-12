@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using System.Net.Http;
-using System.Text;
-using static System.Collections.Specialized.BitVector32;
+﻿using System.Text;
 
 namespace eGift.Admin.MVC.Helpers
 {
@@ -13,7 +10,7 @@ namespace eGift.Admin.MVC.Helpers
         // Create a single static HttpClient instance (thread-safe)
         private static readonly HttpClient _httpClient = new HttpClient
         {
-            Timeout = TimeSpan.FromSeconds(300) // Optional timeout setting 
+            Timeout = TimeSpan.FromSeconds(300) // Optional timeout setting
         };
 
         //Web API Base Url

@@ -8,53 +8,40 @@ using Newtonsoft.Json;
 
 namespace eGift.Admin.MVC.Controllers
 {
-    public class EmployeeController : Controller
+    public class CustomerController : Controller
     {
         #region Constructors
 
-        public EmployeeController()
+        public CustomerController()
         {
         }
 
         #endregion
 
-        #region Employee Default CRUD Actions
+        #region Customer Default CRUD Actions
 
-        // GET: EmployeeController
-        public ActionResult Index(string deleteSuccess = "")
+        // GET: CustomerController
+        public ActionResult Index()
         {
-            var list = new EmployeeListViewModel();
-            string response = WebAPIHelper.GetWebAPIClient("Employee").Result;
+            var list = new CustomerListViewModel();
+            string response = WebAPIHelper.GetWebAPIClient("Customer").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                list.EmployeeList = JsonConvert.DeserializeObject<List<EmployeeViewModel>>(response);
-                list.EmployeeList.ForEach(x => { x.GenderName = ((Gender)x.GenderId).ToString(); x.RoleName = ((Role)x.RoleId).ToString(); });
+                list.CustomerList = JsonConvert.DeserializeObject<List<CustomerViewModel>>(response);
+                list.CustomerList.ForEach(x => { x.GenderName = ((Gender)x.GenderId).ToString(); x.RoleName = ((Role)x.RoleId).ToString(); });
             }
 
-            // to display delete success toastr
-            if (!string.IsNullOrEmpty(deleteSuccess))
-            {
-                var tosterModel = new ToastrViewModel()
-                {
-                    Type = (int)ToastrType.Success,
-                    Message = ToastrMessages.EmployeeDeleteSuccess.GetEnumDescription<ToastrMessages>()
-                };
-
-                //TempData["ToastrModel"] = tosterModel;
-                // Serialize the model to JSON before storing it in TempData
-                TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
-            }
             return View(list);
         }
 
-        // GET: EmployeeController/Details/5
+        // GET: CustomerController/Details/5
         public ActionResult Details(int id)
         {
-            var model = new EmployeeViewModel();
-            string response = WebAPIHelper.GetWebAPIClient($"Employee/{id}").Result;
+            var model = new CustomerViewModel();
+            string response = WebAPIHelper.GetWebAPIClient($"Customer/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<EmployeeViewModel>(response);
+                model = JsonConvert.DeserializeObject<CustomerViewModel>(response);
                 model.GenderName = ((Gender)model.GenderId).ToString();
                 model.RoleName = (((Role)model.RoleId).ToString());
                 model.Age = CalculateAge(model.DateOfBirth);
@@ -63,17 +50,17 @@ namespace eGift.Admin.MVC.Controllers
             return View(model);
         }
 
-        // GET: EmployeeController/Create
+        // GET: CustomerController/Create
         public ActionResult Create()
         {
-            var model = new EmployeeViewModel();
+            var model = new CustomerViewModel();
             return View(model);
         }
 
-        // POST: EmployeeController/Create
+        // POST: CustomerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EmployeeViewModel model)
+        public ActionResult Create(CustomerViewModel model)
         {
             ToastrViewModel tosterModel = null;
             try
@@ -84,7 +71,7 @@ namespace eGift.Admin.MVC.Controllers
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Error,
-                        Message = ToastrMessages.EmployeeCreateError.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.CustomerCreateError.GetEnumDescription<ToastrMessages>()
                     };
 
                     //TempData["ToastrModel"] = tosterModel;
@@ -110,7 +97,7 @@ namespace eGift.Admin.MVC.Controllers
                         }
                     }
 
-                    model.RoleId = (int)Role.Employee;
+                    model.RoleId = (int)Role.Customer;
                     model.IsDeleted = false;
                     model.CreatedBy = 1;//After login from session
                     model.CreatedDate = DateTime.Now;
@@ -120,21 +107,21 @@ namespace eGift.Admin.MVC.Controllers
                 var modelData = JsonConvert.SerializeObject(model);
 
                 // Web API call
-                string response = WebAPIHelper.PostWebAPIClient("Employee", modelData).Result;
+                string response = WebAPIHelper.PostWebAPIClient("Customer", modelData).Result;
                 if (!string.IsNullOrEmpty(response))
                 {
-                    var employeeModel = JsonConvert.DeserializeObject<EmployeeViewModel>(response);
-                    if (employeeModel != null)
+                    var customerModel = JsonConvert.DeserializeObject<EmployeeViewModel>(response);
+                    if (customerModel != null)
                     {
                         // Employee login model
                         var loginModel = new LoginViewModel()
                         {
-                            IsActive = employeeModel.IsActive,
-                            RefId = employeeModel.ID,
-                            RefType = Role.Employee.ToString(),
+                            IsActive = customerModel.IsActive,
+                            RefId = customerModel.ID,
+                            RefType = Role.Customer.ToString(),
                             UserName = model.LoginModel.UserName,
                             Password = model.LoginModel.Password,
-                            RoleId = (int)Role.Employee
+                            RoleId = (int)Role.Customer
                         };
 
                         // Model to json string
@@ -147,13 +134,12 @@ namespace eGift.Admin.MVC.Controllers
                             tosterModel = new ToastrViewModel()
                             {
                                 Type = (int)ToastrType.Success,
-                                Message = ToastrMessages.EmployeeCreateSuccess.GetEnumDescription<ToastrMessages>()
+                                Message = ToastrMessages.CustomerCreateSuccess.GetEnumDescription<ToastrMessages>()
                             };
 
                             //TempData["ToastrModel"] = tosterModel;
                             // Serialize the model to JSON before storing it in TempData
                             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
-
                             return RedirectToAction(nameof(Index));
                         }
                     }
@@ -162,11 +148,10 @@ namespace eGift.Admin.MVC.Controllers
             catch (Exception ex)
             {
             }
-
             tosterModel = new ToastrViewModel()
             {
                 Type = (int)ToastrType.Error,
-                Message = ToastrMessages.EmployeeCreateError.GetEnumDescription<ToastrMessages>()
+                Message = ToastrMessages.CustomerCreateError.GetEnumDescription<ToastrMessages>()
             };
 
             //TempData["ToastrModel"] = tosterModel;
@@ -176,18 +161,18 @@ namespace eGift.Admin.MVC.Controllers
             return View(model);
         }
 
-        // GET: EmployeeController/Edit/5
+        // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = new EmployeeViewModel();
-            string response = WebAPIHelper.GetWebAPIClient($"Employee/{id}").Result;
+            var model = new CustomerViewModel();
+            string response = WebAPIHelper.GetWebAPIClient($"Customer/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<EmployeeViewModel>(response);
+                model = JsonConvert.DeserializeObject<CustomerViewModel>(response);
                 model.Age = CalculateAge(model.DateOfBirth);
 
                 // web client api call for login model
-                string loginResponse = WebAPIHelper.GetWebAPIClient($"Login/GetEmployeeLogin/{id}").Result;
+                string loginResponse = WebAPIHelper.GetWebAPIClient($"Login/GetCustomerLogin/{id}").Result;
                 if (!string.IsNullOrEmpty(loginResponse))
                 {
                     var loginModel = JsonConvert.DeserializeObject<LoginViewModel>(loginResponse);
@@ -197,10 +182,10 @@ namespace eGift.Admin.MVC.Controllers
             return View(model);
         }
 
-        // POST: EmployeeController/Edit/5
+        // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, EmployeeViewModel model)
+        public ActionResult Edit(int id, CustomerViewModel model)
         {
             ToastrViewModel tosterModel = null;
             try
@@ -211,7 +196,7 @@ namespace eGift.Admin.MVC.Controllers
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Error,
-                        Message = ToastrMessages.EmployeeEditError.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.CustomerEditError.GetEnumDescription<ToastrMessages>()
                     };
 
                     //TempData["ToastrModel"] = tosterModel;
@@ -241,7 +226,7 @@ namespace eGift.Admin.MVC.Controllers
                         model.ProfileImageData = null;
                     }
 
-                    model.RoleId = (int)Role.Employee;
+                    model.RoleId = (int)Role.Customer;
                     model.UpdatedBy = 1;//After login from session
                     model.UpdatedDate = DateTime.Now;
                 }
@@ -249,13 +234,13 @@ namespace eGift.Admin.MVC.Controllers
                 var modelData = JsonConvert.SerializeObject(model);
 
                 //web client api call
-                string response = WebAPIHelper.PutWebAPIClient($"Employee/{model.ID}", modelData).Result;
+                string response = WebAPIHelper.PutWebAPIClient($"Customer/{model.ID}", modelData).Result;
                 if (!string.IsNullOrEmpty(response))
                 {
-                    var employeeModel = JsonConvert.DeserializeObject<EmployeeViewModel>(response);
+                    var customerModel = JsonConvert.DeserializeObject<CustomerViewModel>(response);
 
                     //string loginResponse = WebAPIHelper.GetWebAPIClient($"Login?refId={id}&refType={Role.Employee.ToString()}").Result;
-                    string loginResponse = WebAPIHelper.GetWebAPIClient($"Login/GetEmployeeLogin/{id}").Result;
+                    string loginResponse = WebAPIHelper.GetWebAPIClient($"Login/GetCustomerLogin/{id}").Result;
                     if (!string.IsNullOrEmpty(loginResponse))
                     {
                         var existingLoginModel = JsonConvert.DeserializeObject<LoginViewModel>(loginResponse);
@@ -275,7 +260,7 @@ namespace eGift.Admin.MVC.Controllers
                                 tosterModel = new ToastrViewModel()
                                 {
                                     Type = (int)ToastrType.Success,
-                                    Message = ToastrMessages.EmployeeEditSuccess.GetEnumDescription<ToastrMessages>()
+                                    Message = ToastrMessages.CustomerEditSuccess.GetEnumDescription<ToastrMessages>()
                                 };
 
                                 //TempData["ToastrModel"] = tosterModel;
@@ -288,14 +273,13 @@ namespace eGift.Admin.MVC.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
             }
-
             tosterModel = new ToastrViewModel()
             {
                 Type = (int)ToastrType.Error,
-                Message = ToastrMessages.EmployeeEditError.GetEnumDescription<ToastrMessages>()
+                Message = ToastrMessages.CustomerEditError.GetEnumDescription<ToastrMessages>()
             };
 
             //TempData["ToastrModel"] = tosterModel;
@@ -305,20 +289,20 @@ namespace eGift.Admin.MVC.Controllers
             return View(model);
         }
 
-        // GET: EmployeeController/Delete/5
+        // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
         {
-            var model = new EmployeeViewModel();
-            string response = WebAPIHelper.GetWebAPIClient($"Employee/{id}").Result;
+            var model = new CustomerViewModel();
+            string response = WebAPIHelper.GetWebAPIClient($"Customer/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<EmployeeViewModel>(response);
+                model = JsonConvert.DeserializeObject<CustomerViewModel>(response);
                 model.Age = CalculateAge(model.DateOfBirth);
                 model.RoleName = (((Role)model.RoleId).ToString());
                 model.GenderName = ((Gender)model.GenderId).ToString();
 
                 // Fetch login model
-                string loginResponse = WebAPIHelper.GetWebAPIClient($"Login/GetEmployeeLogin/{id}").Result;
+                string loginResponse = WebAPIHelper.GetWebAPIClient($"Login/GetCustomerLogin/{id}").Result;
                 if (!string.IsNullOrEmpty(loginResponse))
                 {
                     var loginModel = JsonConvert.DeserializeObject<LoginViewModel>(loginResponse);
@@ -329,22 +313,45 @@ namespace eGift.Admin.MVC.Controllers
             return View(model);
         }
 
-        // POST: EmployeeController/Delete
+        // POST: CustomerController/Delete/5
         [HttpPost]
-        public JsonResult Delete(int id, int loginUserId)
+
+        //[ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, int loginUserId)
         {
+            ToastrViewModel tosterModel = null;
             try
             {
-                string response = WebAPIHelper.DeleteWebAPIClient($"Employee/{id}?loginUserId={loginUserId}").Result;
+                string response = WebAPIHelper.DeleteWebAPIClient($"Customer/{id}?loginUserId={loginUserId}").Result;
                 if (!string.IsNullOrEmpty(response))
                 {
-                    return Json(true);
+                    tosterModel = new ToastrViewModel()
+                    {
+                        Type = (int)ToastrType.Success,
+                        Message = ToastrMessages.CustomerDeleteSuccess.GetEnumDescription<ToastrMessages>()
+                    };
+
+                    //TempData["ToastrModel"] = tosterModel;
+                    // Serialize the model to JSON before storing it in TempData
+                    TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
+
+                    return RedirectToAction(nameof(Index));
                 }
             }
             catch
             {
             }
-            return Json(false);
+            tosterModel = new ToastrViewModel()
+            {
+                Type = (int)ToastrType.Error,
+                Message = ToastrMessages.CustomerDeleteError.GetEnumDescription<ToastrMessages>()
+            };
+
+            //TempData["ToastrModel"] = tosterModel;
+            // Serialize the model to JSON before storing it in TempData
+            TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
+
+            return View();
         }
 
         #endregion
