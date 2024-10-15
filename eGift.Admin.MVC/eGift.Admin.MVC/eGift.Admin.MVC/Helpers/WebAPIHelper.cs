@@ -5,6 +5,7 @@ namespace eGift.Admin.MVC.Helpers
     public static class WebAPIHelper
     {
         #region Variables
+
         private static IConfiguration _configuration;
 
         // Create a single static HttpClient instance (thread-safe)
@@ -15,9 +16,11 @@ namespace eGift.Admin.MVC.Helpers
 
         //Web API Base Url
         static string baseUrl = "";
+
         #endregion
 
         #region Constructors
+
         static WebAPIHelper()
         {
             _configuration = new ConfigurationBuilder()
@@ -27,6 +30,7 @@ namespace eGift.Admin.MVC.Helpers
 
             baseUrl = _configuration[$"APIUrl"];
         }
+
         #endregion
 
         #region Web Client Methods
@@ -119,6 +123,7 @@ namespace eGift.Admin.MVC.Helpers
                 return $"Exception: {ex.Message}";
             }
         }
+
         #endregion
     }
 }

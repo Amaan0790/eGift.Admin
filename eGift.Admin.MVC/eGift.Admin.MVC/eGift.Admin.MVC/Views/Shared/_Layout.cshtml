@@ -1,9 +1,16 @@
 ﻿@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http;
 @{
     ViewData["ApplicationName"] = "eGift.Admin";
     int inceptionYear = 2024;
     int currentYear = DateTime.Now.Year;
     //var toastrModel = JsonConvert.SerializeObject(TempData["ToastrModel"]);
+    // User sessions
+    int userID = Convert.ToInt32(Context.Session.GetInt32("UserID"));
+    string userName = Context.Session.GetString("UserName");
+    // Last login sessions
+    string loginDatetime = Context.Session.GetString("LoginDateTime");
+    string lastLogin = Context.Session.GetString("LastLogin");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -66,6 +73,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav justify-content-between">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="javascript:void(0)">Welcome, <b>@userName</b>!</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout"><b>Logout</b></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -78,7 +93,17 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @(inceptionYear == currentYear ? currentYear : inceptionYear + "-" + currentYear) - @ViewData["ApplicationName"] - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row align-items-center justify-content-between">
+                <div class="col-auto">
+                    &copy; @(inceptionYear == currentYear ? currentYear : inceptionYear + "-" + currentYear) - @ViewData["ApplicationName"] - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+                <div class="col-auto">
+                    Login : <b>@loginDatetime</b>
+                </div>
+                <div class="col-auto">
+                    Last Login: <b>@lastLogin</b>
+                </div>
+            </div>
         </div>
     </footer>
     @await RenderSectionAsync("Scripts", required: false)
@@ -89,7 +114,6 @@
             console.log(toastrJson);
             if (toastrJson != "") {
                 var toastrObject = JSON.parse(toastrJson);
-                console.log(toastrObject);
                 ShowToastrMessages(toastrObject.Type, toastrObject.Message);
             }
         });

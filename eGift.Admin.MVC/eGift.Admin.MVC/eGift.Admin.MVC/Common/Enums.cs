@@ -89,7 +89,24 @@ namespace eGift.Admin.MVC.Common
         CustomerDeleteSuccess = 11,
 
         [Description("Unable to delete customer.")]
-        CustomerDeleteError = 12
+        CustomerDeleteError = 12,
+
+        //Login
+        [Description("Login successfully.")]
+        LoginSuccess = 13,
+
+        [Description("Invalid credentials.")]
+        LoginInvalid = 14,
+
+        [Description("This user is inctive.")]
+        LoginInactive = 15,
+
+        [Description("An error occured while login.")]
+        LoginError = 16,
+
+        //Logout
+        [Description("Logout successfully.")]
+        LogoutSuccess = 17,
     }
 
     #endregion

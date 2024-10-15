@@ -15,5 +15,19 @@
         }
 
         #endregion
+
+        #region Datetime To Date and Time String
+
+        public static string ToDateTimeString(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd hh:mm tt");
+        }
+
+        public static string ToDateTimeString(this DateTime? dateTime)
+        {
+            return dateTime?.ToString("yyyy-MM-dd hh:mm tt");
+        }
+
+        #endregion
     }
 }

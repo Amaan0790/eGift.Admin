@@ -14,14 +14,16 @@ namespace eGift.Admin.MVC.Models
 
         #region Data Models
 
-        [Display(Name = "UserName")]
-        [Required]
+        [Display(Name = "User Name")]
+        [Required(ErrorMessage = "This field is required.")]
         public string UserName { get; set; }
 
         [Display(Name = "Password")]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
 
         #endregion Data Models

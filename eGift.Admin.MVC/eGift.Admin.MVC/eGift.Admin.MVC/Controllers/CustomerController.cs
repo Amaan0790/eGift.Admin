@@ -190,7 +190,7 @@ namespace eGift.Admin.MVC.Controllers
             ToastrViewModel tosterModel = null;
             try
             {
-                //Server side validation
+                // Server side validation
                 if (!ModelState.IsValid)
                 {
                     tosterModel = new ToastrViewModel()
@@ -231,9 +231,10 @@ namespace eGift.Admin.MVC.Controllers
                     model.UpdatedDate = DateTime.Now;
                 }
 
+                // Serialize model to json string
                 var modelData = JsonConvert.SerializeObject(model);
 
-                //web client api call
+                // Web client api call
                 string response = WebAPIHelper.PutWebAPIClient($"Customer/{model.ID}", modelData).Result;
                 if (!string.IsNullOrEmpty(response))
                 {
