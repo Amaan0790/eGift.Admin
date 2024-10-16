@@ -112,7 +112,7 @@ namespace eGift.Admin.MVC.Controllers
 
                     model.RoleId = (int)Role.Employee;
                     model.IsDeleted = false;
-                    model.CreatedBy = 1;//After login from session
+                    model.CreatedBy = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
                     model.CreatedDate = DateTime.Now;
                 }
 
@@ -242,7 +242,7 @@ namespace eGift.Admin.MVC.Controllers
                     }
 
                     model.RoleId = (int)Role.Employee;
-                    model.UpdatedBy = 1;//After login from session
+                    model.UpdatedBy = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
                     model.UpdatedDate = DateTime.Now;
                 }
 

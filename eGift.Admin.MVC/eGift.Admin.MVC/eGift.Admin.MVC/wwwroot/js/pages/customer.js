@@ -72,19 +72,18 @@ $(document).ready(function () {
             }
         }).then(function (result) {
             if (result) {
+                //// Add hidden fields for the IDs before submitting
+                //$('<input>').attr({
+                //    type: 'hidden',
+                //    name: 'id',
+                //    value: id
+                //}).appendTo('#customer-delete-form');
 
-                // Add hidden fields for the IDs before submitting
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: 'id',
-                    value: id
-                }).appendTo('#customer-delete');
-
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: 'loginUserId',
-                    value: loginUserId
-                }).appendTo('#customer-delete');
+                //$('<input>').attr({
+                //    type: 'hidden',
+                //    name: 'loginUserId',
+                //    value: loginUserId
+                //}).appendTo('#customer-delete-form');
 
                 // Submit the form programmatically
                 $('#customer-delete-form').off('submit').submit();  // Unbind the original submit handler and then submit the form

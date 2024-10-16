@@ -1,11 +1,12 @@
 ﻿@model eGift.Admin.MVC.Models.ViewModels.EmployeeViewModel
 @using eGift.Admin.MVC.Helpers
+@using Microsoft.AspNetCore.Http;
 
 @{
     ViewData["Title"] = "Employee";
     ViewData["SubTitle"] = "Delete";
     var defaultImageUrl = Url.Content("~/images/default/user_default_image.png");
-    int loginUserId = 1;//After login from session
+    int loginUserId = Convert.ToInt32(Context.Session.GetInt32("UserID"));
 }
 
 <h1>@ViewData["Title"]</h1>

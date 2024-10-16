@@ -99,7 +99,7 @@ namespace eGift.Admin.MVC.Controllers
 
                     model.RoleId = (int)Role.Customer;
                     model.IsDeleted = false;
-                    model.CreatedBy = 1;//After login from session
+                    model.CreatedBy = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
                     model.CreatedDate = DateTime.Now;
                 }
 
@@ -227,7 +227,7 @@ namespace eGift.Admin.MVC.Controllers
                     }
 
                     model.RoleId = (int)Role.Customer;
-                    model.UpdatedBy = 1;//After login from session
+                    model.UpdatedBy = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
                     model.UpdatedDate = DateTime.Now;
                 }
 
@@ -293,6 +293,9 @@ namespace eGift.Admin.MVC.Controllers
         // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
         {
+            // pass session variable to view
+            ViewBag.UserID = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
+
             var model = new CustomerViewModel();
             string response = WebAPIHelper.GetWebAPIClient($"Customer/{id}").Result;
             if (!string.IsNullOrEmpty(response))

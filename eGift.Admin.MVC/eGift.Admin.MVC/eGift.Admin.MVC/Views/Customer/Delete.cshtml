@@ -5,7 +5,7 @@
     ViewData["Title"] = "Customer";
     ViewData["SubTitle"] = "Delete";
     var defaultImageUrl = Url.Content("~/images/default/user_default_image.png");
-    int loginUserId = 1;//After login from session
+    int loginUserId = ViewBag.UserID;
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -111,8 +111,8 @@
     </div>
 
     <form id="customer-delete-form" asp-action="Delete">
-       @*  <input type="hidden" id="id" name="id" value="@Model.ID" />
-        <input type="hidden" id="loginUserId" name="loginUserId" value="@loginUserId" /> *@
+        <input type="hidden" id="id" name="id" value="@Model.ID" />
+        <input type="hidden" id="loginUserId" name="loginUserId" value="@loginUserId" />
         <input type="submit" id="btn-customer-delete" data-id="@Model.ID" data-login-id="@loginUserId" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
