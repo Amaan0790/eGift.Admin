@@ -1,5 +1,6 @@
 ﻿using eGift.Admin.MVC.Common;
 using eGift.Admin.MVC.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
@@ -84,6 +85,11 @@ namespace eGift.Admin.MVC.Models.ViewModels
         public IFormFile? ProfileImage { get; set; }
 
         public bool IsClear { get; set; }
+
+        [Display(Name = "User Name")]
+        [Required(ErrorMessage = "This field is required.")]
+        [Remote(action: "VerifyUserName", controller: "Employee", AdditionalFields = nameof(ID))]
+        public string UserName { get; set; }
 
         #endregion View Models
 

@@ -132,7 +132,7 @@ namespace eGift.Admin.MVC.Controllers
                             IsActive = employeeModel.IsActive,
                             RefId = employeeModel.ID,
                             RefType = Role.Employee.ToString(),
-                            UserName = model.LoginModel.UserName,
+                            UserName = model.UserName,
                             Password = model.LoginModel.Password,
                             RoleId = (int)Role.Employee
                         };
@@ -192,6 +192,7 @@ namespace eGift.Admin.MVC.Controllers
                 {
                     var loginModel = JsonConvert.DeserializeObject<LoginViewModel>(loginResponse);
                     model.LoginModel = loginModel;
+                    model.UserName = loginModel.UserName;
                 }
             }
             return View(model);
@@ -262,7 +263,7 @@ namespace eGift.Admin.MVC.Controllers
                         if (existingLoginModel != null)
                         {
                             existingLoginModel.IsActive = model.IsActive;
-                            existingLoginModel.UserName = model.LoginModel.UserName;
+                            existingLoginModel.UserName = model.UserName;
                             existingLoginModel.Password = model.LoginModel.Password;
 
                             // Model to json string
@@ -373,6 +374,21 @@ namespace eGift.Admin.MVC.Controllers
             }
         }
 
+        #endregion
+
+        #region Remote Validation Actions
+        public IActionResult VerifyUserName(int ID, string UserName)
+        {
+            // Web client api call
+            string isExistResponse = WebAPIHelper.GetWebAPIClient($"Employee/VerifyUserName?id={ID}&userName={UserName}").Result;
+
+            if (Convert.ToBoolean(isExistResponse))
+            {
+                return Json($"Username {UserName} is already in use.");
+            }
+
+            return Json(true);
+        }
         #endregion
     }
 }

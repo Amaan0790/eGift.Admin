@@ -23,8 +23,9 @@ namespace eGift.Admin.MVC.Models.ViewModels
         public string? RefType { get; set; }
 
         [Display(Name = "User Name")]
-        [Required(ErrorMessage = "This field is required.")]
-        public string UserName { get; set; }
+
+        //[Required(ErrorMessage = "This field is required.")]
+        public string? UserName { get; set; }
 
         [Display(Name = "Password")]
         [Required(ErrorMessage = "This field is required.")]
