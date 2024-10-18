@@ -91,7 +91,7 @@ namespace eGift.Admin.MVC.Common
         [Description("Unable to delete customer.")]
         CustomerDeleteError = 12,
 
-        //Login
+        // Login
         [Description("Login successfully.")]
         LoginSuccess = 13,
 
@@ -104,9 +104,28 @@ namespace eGift.Admin.MVC.Common
         [Description("An error occured while login.")]
         LoginError = 16,
 
-        //Logout
+        // Logout
         [Description("Logout successfully.")]
         LogoutSuccess = 17,
+
+        // Category
+        [Description("Category created successfully.")]
+        CategoryCreateSuccess = 18,
+
+        [Description("Unable to create category.")]
+        CategoryCreateError = 19,
+
+        [Description("Category edited successfully.")]
+        CategoryEditSuccess = 20,
+
+        [Description("Unable to edit category.")]
+        CategoryEditError = 21,
+
+        [Description("Category deleted successfully.")]
+        CategoryDeleteSuccess = 22,
+
+        [Description("Unable to delete category.")]
+        CategoryDeleteError = 23,
     }
 
     #endregion

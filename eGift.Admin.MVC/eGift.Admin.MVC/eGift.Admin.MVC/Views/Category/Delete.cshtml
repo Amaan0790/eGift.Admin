@@ -1,0 +1,43 @@
+﻿@model eGift.Admin.MVC.Models.ViewModels.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Category";
+    ViewData["SubTitle"] = "Delete";
+    int loginUserId = ViewBag.UserID;
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>@ViewData["SubTitle"]</h4>
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div>
+            <dl class="col-sm-12">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CategoryName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <form id="category-delete-form" asp-action="Delete">
+        <input type="hidden" id="id" name="id" value="@Model.ID" />
+        <input type="hidden" id="loginUserId" name="loginUserId" value="@loginUserId" />
+
+        <input id="category-delete-button" type="button" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+
+<script src="~/js/pages/category.js"></script>

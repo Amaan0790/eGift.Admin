@@ -377,6 +377,7 @@ namespace eGift.Admin.MVC.Controllers
         #endregion
 
         #region Remote Validation Actions
+
         public IActionResult VerifyUserName(int ID, string UserName)
         {
             // Web client api call
@@ -389,6 +390,7 @@ namespace eGift.Admin.MVC.Controllers
 
             return Json(true);
         }
+
         #endregion
     }
 }
