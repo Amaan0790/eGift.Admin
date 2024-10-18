@@ -32,7 +32,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeModel.Mobile)
-            </th>             
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeModel.RoleName)
             </th>
@@ -41,7 +41,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeModel.IsDefault)
-            </th>   
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeModel.ProfileImageData)
             </th>
@@ -70,7 +70,7 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Mobile)
-                </td>                
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RoleName)
                 </td>
@@ -81,7 +81,7 @@
                     @Html.DisplayFor(modelItem => item.IsDefault)
                 </td>
                 <td>
-                    @if(item.ProfileImageData != null)
+                    @if (item.ProfileImageData != null)
                     {
                         <img class="index-image" src="data:image/*;base64,@Convert.ToBase64String(item.ProfileImageData)" />
                     }
@@ -91,15 +91,24 @@
                     }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID" title="Edit" class="text-decoration-none me-2">
-                        <i class="fa-solid fa-pen text-dark"></i>
-                    </a>
-                    <a asp-action="Details" asp-route-id="@item.ID" title="Details" class="text-decoration-none me-2">
-                        <i class="fa-solid fa-eye text-dark"></i>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.ID" title="Delete" class="text-decoration-none">
-                        <i class="fa-solid fa-trash text-dark"></i>
-                    </a>
+                    @if (!item.IsDefault)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ID" title="Edit" class="text-decoration-none me-2">
+                            <i class="fa-solid fa-pen text-dark"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.ID" title="Details" class="text-decoration-none me-2">
+                            <i class="fa-solid fa-eye text-dark"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" title="Delete" class="text-decoration-none">
+                            <i class="fa-solid fa-trash text-dark"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@item.ID" title="Details" class="text-decoration-none me-2">
+                            <i class="fa-solid fa-eye text-dark"></i>
+                        </a>
+                    }                   
                 </td>
             </tr>
         }
