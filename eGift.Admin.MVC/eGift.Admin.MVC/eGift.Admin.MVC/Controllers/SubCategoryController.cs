@@ -4,58 +4,65 @@ using eGift.Admin.MVC.Models;
 using eGift.Admin.MVC.Models.ListViewModels;
 using eGift.Admin.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace eGift.Admin.MVC.Controllers
 {
-    public class CategoryController : Controller
+    public class SubCategoryController : Controller
     {
         #region Constructors
 
-        public CategoryController()
+        public SubCategoryController()
         {
         }
 
         #endregion
 
-        #region Category Default CRUD Actions
+        #region SubCategory Default CRUD Actions
 
-        // GET: CategoryController
+        // GET: SubCategoryController
         public ActionResult Index()
         {
-            var list = new CategoryListViewModel();
-            string response = WebAPIHelper.GetWebAPIClient("Category").Result;
+            var list = new SubCategoryListViewModel();
+
+            // Get all sub category
+            string response = WebAPIHelper.GetWebAPIClient("SubCategory").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                list.CategoryList = JsonConvert.DeserializeObject<List<CategoryViewModel>>(response);
+                list.SubCategoryList = JsonConvert.DeserializeObject<List<SubCategoryViewModel>>(response);
+                list.SubCategoryList.ForEach(x => { x.CategoryName = GetCategoryName(x.CategoryId); });
             }
+
             return View(list);
         }
 
-        // GET: CategoryController/Details/5
+        // GET: SubCategoryController/Details/5
         public ActionResult Details(int id)
         {
-            var model = new CategoryViewModel();
-            string response = WebAPIHelper.GetWebAPIClient($"Category/{id}").Result;
+            var model = new SubCategoryViewModel();
+            string response = WebAPIHelper.GetWebAPIClient($"SubCategory/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<CategoryViewModel>(response);
+                model = JsonConvert.DeserializeObject<SubCategoryViewModel>(response);
+                model.CategoryName = GetCategoryName(model.CategoryId);
             }
 
             return View(model);
         }
 
-        // GET: CategoryController/Create
+        // GET: SubCategoryController/Create
         public ActionResult Create()
         {
-            var model = new CategoryViewModel();
+            var model = new SubCategoryViewModel();
+            GetAllCategory(model);
             return View(model);
         }
 
-        // POST: CategoryController/Create
+        // POST: SubCategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CategoryViewModel model)
+        public ActionResult Create(SubCategoryViewModel model)
         {
             ToastrViewModel tosterModel = null;
             try
@@ -66,7 +73,7 @@ namespace eGift.Admin.MVC.Controllers
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Error,
-                        Message = ToastrMessages.CategoryCreateError.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.SubCategoryCreateError.GetEnumDescription<ToastrMessages>()
                     };
 
                     //TempData["ToastrModel"] = tosterModel;
@@ -87,53 +94,57 @@ namespace eGift.Admin.MVC.Controllers
                 // Model to json string
                 var modelData = JsonConvert.SerializeObject(model);
 
-                string response = WebAPIHelper.PostWebAPIClient("Category", modelData).Result;
+                string response = WebAPIHelper.PostWebAPIClient("SubCategory", modelData).Result;
                 if (!string.IsNullOrEmpty(response))
                 {
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Success,
-                        Message = ToastrMessages.CategoryCreateSuccess.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.SubCategoryCreateSuccess.GetEnumDescription<ToastrMessages>()
                     };
 
                     //TempData["ToastrModel"] = tosterModel;
                     // Serialize the model to JSON before storing it in TempData
                     TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
+
                     return RedirectToAction(nameof(Index));
                 }
             }
             catch
             {
             }
+
             tosterModel = new ToastrViewModel()
             {
                 Type = (int)ToastrType.Error,
-                Message = ToastrMessages.CategoryCreateError.GetEnumDescription<ToastrMessages>()
+                Message = ToastrMessages.SubCategoryCreateError.GetEnumDescription<ToastrMessages>()
             };
 
             //TempData["ToastrModel"] = tosterModel;
             // Serialize the model to JSON before storing it in TempData
             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
+
             return View(model);
         }
 
-        // GET: CategoryController/Edit/5
+        // GET: SubCategoryController/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = new CategoryViewModel();
-            string response = WebAPIHelper.GetWebAPIClient($"Category/{id}").Result;
+            var model = new SubCategoryViewModel();
+            string response = WebAPIHelper.GetWebAPIClient($"SubCategory/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<CategoryViewModel>(response);
+                model = JsonConvert.DeserializeObject<SubCategoryViewModel>(response);
+                GetAllCategory(model);
             }
 
             return View(model);
         }
 
-        // POST: CategoryController/Edit/5
+        // POST: SubCategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, CategoryViewModel model)
+        public ActionResult Edit(int id, SubCategoryViewModel model)
         {
             ToastrViewModel tosterModel = null;
             try
@@ -144,7 +155,7 @@ namespace eGift.Admin.MVC.Controllers
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Error,
-                        Message = ToastrMessages.CategoryEditError.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.SubCategoryEditError.GetEnumDescription<ToastrMessages>()
                     };
 
                     //TempData["ToastrModel"] = tosterModel;
@@ -164,13 +175,13 @@ namespace eGift.Admin.MVC.Controllers
                 var modelData = JsonConvert.SerializeObject(model);
 
                 // Web client api call
-                string response = WebAPIHelper.PutWebAPIClient($"Category/{model.ID}", modelData).Result;
+                string response = WebAPIHelper.PutWebAPIClient($"SubCategory/{model.ID}", modelData).Result;
                 if (!string.IsNullOrEmpty(response))
                 {
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Success,
-                        Message = ToastrMessages.CategoryEditSuccess.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.SubCategoryEditSuccess.GetEnumDescription<ToastrMessages>()
                     };
 
                     //TempData["ToastrModel"] = tosterModel;
@@ -183,10 +194,11 @@ namespace eGift.Admin.MVC.Controllers
             catch
             {
             }
+
             tosterModel = new ToastrViewModel()
             {
                 Type = (int)ToastrType.Error,
-                Message = ToastrMessages.CategoryEditError.GetEnumDescription<ToastrMessages>()
+                Message = ToastrMessages.SubCategoryEditError.GetEnumDescription<ToastrMessages>()
             };
 
             //TempData["ToastrModel"] = tosterModel;
@@ -196,23 +208,24 @@ namespace eGift.Admin.MVC.Controllers
             return View(model);
         }
 
-        // GET: CategoryController/Delete/5
+        // GET: SubCategoryController/Delete/5
         public ActionResult Delete(int id)
         {
             // pass session variable to view
             ViewBag.UserID = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
 
-            var model = new CategoryViewModel();
-            string response = WebAPIHelper.GetWebAPIClient($"Category/{id}").Result;
+            var model = new SubCategoryViewModel();
+            string response = WebAPIHelper.GetWebAPIClient($"SubCategory/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<CategoryViewModel>(response);
+                model = JsonConvert.DeserializeObject<SubCategoryViewModel>(response);
+                model.CategoryName = GetCategoryName(model.CategoryId);
             }
 
             return View(model);
         }
 
-        // POST: CategoryController/Delete/5
+        // POST: SubCategoryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, int loginUserId)
@@ -220,13 +233,14 @@ namespace eGift.Admin.MVC.Controllers
             ToastrViewModel tosterModel = null;
             try
             {
-                string response = WebAPIHelper.DeleteWebAPIClient($"Category/{id}?loginUserId={loginUserId}").Result;
+                loginUserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
+                string response = WebAPIHelper.DeleteWebAPIClient($"SubCategory/{id}?loginUserId={loginUserId}").Result;
                 if (!string.IsNullOrEmpty(response))
                 {
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Success,
-                        Message = ToastrMessages.CategoryDeleteSuccess.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.SubCategoryDeleteSuccess.GetEnumDescription<ToastrMessages>()
                     };
 
                     //TempData["ToastrModel"] = tosterModel;
@@ -239,10 +253,11 @@ namespace eGift.Admin.MVC.Controllers
             catch
             {
             }
+
             tosterModel = new ToastrViewModel()
             {
                 Type = (int)ToastrType.Error,
-                Message = ToastrMessages.CategoryDeleteError.GetEnumDescription<ToastrMessages>()
+                Message = ToastrMessages.SubCategoryDeleteError.GetEnumDescription<ToastrMessages>()
             };
 
             //TempData["ToastrModel"] = tosterModel;
@@ -254,16 +269,48 @@ namespace eGift.Admin.MVC.Controllers
 
         #endregion
 
+        #region Private Methods
+
+        private void GetAllCategory(SubCategoryViewModel model)
+        {
+            string response = WebAPIHelper.GetWebAPIClient("Category").Result;
+            if (!string.IsNullOrEmpty(response))
+            {
+                var CategoryList = JsonConvert.DeserializeObject<List<CategoryViewModel>>(response);
+
+                // Create a SelectList
+                model.CategoryList = new SelectList(CategoryList, "ID", "CategoryName");
+            }
+        }
+
+        private string GetCategoryName(int id)
+        {
+            string response = WebAPIHelper.GetWebAPIClient("Category").Result;
+            if (!string.IsNullOrEmpty(response))
+            {
+                var categoryList = JsonConvert.DeserializeObject<List<CategoryViewModel>>(response);
+
+                // Find the category with the matching ID
+                var category = categoryList.FirstOrDefault(x => x.ID == id);
+
+                // Return the category name if found, otherwise return null
+                return category?.CategoryName;
+            }
+            return null;
+        }
+
+        #endregion
+
         #region Remote Validation Actions
 
-        public IActionResult VerifyCategoryName(int ID, string CategoryName)
+        public IActionResult VerifySubCategoryName(int ID, int CategoryId, string SubCategoryName)
         {
             // Web client api call
-            string isExistResponse = WebAPIHelper.GetWebAPIClient($"Category/VerifyCategoryName?id={ID}&categoryName={CategoryName}").Result;
+            string isExistResponse = WebAPIHelper.GetWebAPIClient($"SubCategory/VerifySubCategoryName?id={ID}&categoryId={CategoryId}&subCategoryName={SubCategoryName}").Result;
 
             if (Convert.ToBoolean(isExistResponse))
             {
-                return Json($"Category name {CategoryName} is already exist.");
+                return Json($"Sub category name {SubCategoryName} is already exist.");
             }
 
             return Json(true);

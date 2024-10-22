@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace eGift.Admin.MVC.Models.ViewModels
 {
@@ -8,6 +10,7 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public SubCategoryViewModel()
         {
+            CategoryList = new SelectList("");
         }
 
         #endregion Constructors
@@ -17,11 +20,12 @@ namespace eGift.Admin.MVC.Models.ViewModels
         public int ID { get; set; }
 
         [Display(Name = "Category")]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
         public int CategoryId { get; set; }
 
-        [Display(Name = "SubCategory")]
-        [Required]
+        [Display(Name = "Sub Category")]
+        [Required(ErrorMessage = "This field is required.")]
+        [Remote(action: "VerifySubCategoryName", controller: "SubCategory", AdditionalFields = nameof(ID) + "," + nameof(CategoryId))]
         public string SubCategoryName { get; set; }
 
         [Display(Name = "Description")]
@@ -35,5 +39,11 @@ namespace eGift.Admin.MVC.Models.ViewModels
         public string? CategoryName { get; set; }
 
         #endregion View Models
+
+        #region Dropdown Models
+
+        public SelectList CategoryList { get; set; }
+
+        #endregion
     }
 }

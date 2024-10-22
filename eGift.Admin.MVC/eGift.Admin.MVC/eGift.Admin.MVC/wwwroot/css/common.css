@@ -1,4 +1,8 @@
-﻿dl {
+﻿textarea {
+    resize: none;
+}
+
+dl {
     display: flex;
     flex-wrap: wrap;
 }

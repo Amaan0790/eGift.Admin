@@ -129,6 +129,25 @@ namespace eGift.Admin.MVC.Common
 
         [Description("Unable to delete category.")]
         CategoryDeleteError = 23,
+
+        // Sub Category
+        [Description("Sub category created successfully.")]
+        SubCategoryCreateSuccess = 24,
+
+        [Description("Unable to create sub category.")]
+        SubCategoryCreateError = 25,
+
+        [Description("Sub category edited successfully.")]
+        SubCategoryEditSuccess = 26,
+
+        [Description("Unable to edit sub category.")]
+        SubCategoryEditError = 27,
+
+        [Description("Sub category deleted successfully.")]
+        SubCategoryDeleteSuccess = 28,
+
+        [Description("Unable to delete sub category.")]
+        SubCategoryDeleteError = 29,
     }
 
     #endregion

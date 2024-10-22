@@ -9,6 +9,7 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public SubCategoryListViewModel()
         {
             SubCategoryList = new List<SubCategoryViewModel>();
+            SubCategoryModel = new SubCategoryViewModel();
         }
 
         #endregion Constructors
@@ -18,5 +19,11 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public List<SubCategoryViewModel> SubCategoryList { get; set; }
 
         #endregion List View Models
+
+        #region Reference View Models
+
+        public SubCategoryViewModel SubCategoryModel { get; set; }
+
+        #endregion
     }
 }
