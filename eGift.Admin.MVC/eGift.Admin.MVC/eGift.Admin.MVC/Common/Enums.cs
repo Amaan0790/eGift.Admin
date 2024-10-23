@@ -148,6 +148,25 @@ namespace eGift.Admin.MVC.Common
 
         [Description("Unable to delete sub category.")]
         SubCategoryDeleteError = 29,
+
+        // Country
+        [Description("Country created successfully.")]
+        CountryCreateSuccess = 30,
+
+        [Description("Unable to create country.")]
+        CountryCreateError = 31,
+
+        [Description("Country edited successfully.")]
+        CountryEditSuccess = 32,
+
+        [Description("Unable to edit country.")]
+        CountryEditError = 33,
+
+        [Description("Country deleted successfully.")]
+        CountryDeleteSuccess = 34,
+
+        [Description("Unable to delete country.")]
+        CountryDeleteError = 35,
     }
 
     #endregion

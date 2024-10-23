@@ -9,6 +9,7 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public CountryListViewModel()
         {
             CountryList = new List<CountryViewModel>();
+            CountryModel = new CountryViewModel();
         }
 
         #endregion Constructors
@@ -18,5 +19,11 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public List<CountryViewModel> CountryList { get; set; }
 
         #endregion List View Models
+
+        #region Reference View Models
+
+        public CountryViewModel CountryModel { get; set; }
+
+        #endregion
     }
 }

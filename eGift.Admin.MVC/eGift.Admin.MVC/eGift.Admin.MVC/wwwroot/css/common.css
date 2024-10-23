@@ -48,3 +48,7 @@ label.required::after {
     width: 48px;
     height: 48px;
 }
+
+.dt-left {
+    text-align: left !important;
+}

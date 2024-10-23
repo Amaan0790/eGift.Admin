@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace eGift.Admin.MVC.Models.ViewModels
 {
@@ -16,12 +17,14 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public int ID { get; set; }
 
-        [Display(Name = "CountryCode")]
-        [Required]
+        [Display(Name = "Country Code")]
+        [Required(ErrorMessage = "This field is required.")]
+        [Remote(action: "VerifyCountryCode", controller: "Country", AdditionalFields = nameof(ID))]
         public string CountryCode { get; set; }
 
         [Display(Name = "Country")]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
+        [Remote(action: "VerifyCountryName", controller: "Country", AdditionalFields = nameof(ID))]
         public string CountryName { get; set; }
 
         [Display(Name = "Description")]
