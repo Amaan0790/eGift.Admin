@@ -9,6 +9,7 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public StateListViewModel()
         {
             StateList = new List<StateViewModel>();
+            StateModel = new StateViewModel();
         }
 
         #endregion Constructors
@@ -18,5 +19,9 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public List<StateViewModel> StateList { get; set; }
 
         #endregion List View Models
+
+        #region Reference View Models
+        public StateViewModel StateModel { get; set; }
+        #endregion
     }
 }

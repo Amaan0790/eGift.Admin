@@ -167,6 +167,44 @@ namespace eGift.Admin.MVC.Common
 
         [Description("Unable to delete country.")]
         CountryDeleteError = 35,
+
+        // State
+        [Description("State created successfully.")]
+        StateCreateSuccess = 36,
+
+        [Description("Unable to create state.")]
+        StateCreateError = 37,
+
+        [Description("State edited successfully.")]
+        StateEditSuccess = 38,
+
+        [Description("Unable to edit state.")]
+        StateEditError = 39,
+
+        [Description("State deleted successfully.")]
+        StateDeleteSuccess = 40,
+
+        [Description("Unable to delete state.")]
+        StateDeleteError = 41,
+
+        // City
+        [Description("City created successfully.")]
+        CityCreateSuccess = 42,
+
+        [Description("Unable to create city.")]
+        CityCreateError = 43,
+
+        [Description("City edited successfully.")]
+        CityEditSuccess = 44,
+
+        [Description("Unable to edit city.")]
+        CityEditError = 45,
+
+        [Description("City deleted successfully.")]
+        CityDeleteSuccess = 46,
+
+        [Description("Unable to delete city.")]
+        CityDeleteError = 47,
     }
 
     #endregion

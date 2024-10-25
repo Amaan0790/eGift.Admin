@@ -1,0 +1,52 @@
+﻿@model eGift.Admin.MVC.Models.ViewModels.StateViewModel
+
+@{
+    ViewData["Title"] = "State";
+    ViewData["SubTitle"] = "Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>@ViewData["SubTitle"]</h4>
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div>
+            <dl class="col-sm-12">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CountryName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CountryName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.StateName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.StateName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.StateCode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.StateCode)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID" title="Edit" class="btn btn-primary">
+        Edit
+    </a> |
+    <a asp-action="Index">Back to List</a>
+</div>

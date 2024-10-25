@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace eGift.Admin.MVC.Models.ViewModels
 {
@@ -8,6 +10,7 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public StateViewModel()
         {
+            CountryList = new SelectList("");
         }
 
         #endregion Constructors
@@ -16,16 +19,18 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public int ID { get; set; }
 
-        [Display(Name = "StateCode")]
-        [Required]
+        [Display(Name = "State Code")]
+        [Required(ErrorMessage = "This field is required.")]
+        [Remote(action: "VerifyStateCode", controller: "State", AdditionalFields = nameof(ID) + "," + nameof(CountryId))]
         public string StateCode { get; set; }
 
         [Display(Name = "State")]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
+        [Remote(action: "VerifyStateName", controller: "State", AdditionalFields = nameof(ID) + "," + nameof(CountryId))]
         public string StateName { get; set; }
 
         [Display(Name = "Country")]
-        [Required]
+        [Required(ErrorMessage = "This field is required.")]
         public int CountryId { get; set; }
 
         [Display(Name = "Description")]
@@ -39,5 +44,10 @@ namespace eGift.Admin.MVC.Models.ViewModels
         public string? CountryName { get; set; }
 
         #endregion View Models
+
+        #region Dropdown Models
+        public SelectList CountryList { get; set; }
+
+        #endregion
     }
 }
