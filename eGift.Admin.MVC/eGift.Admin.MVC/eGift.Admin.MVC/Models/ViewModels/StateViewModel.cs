@@ -46,6 +46,7 @@ namespace eGift.Admin.MVC.Models.ViewModels
         #endregion View Models
 
         #region Dropdown Models
+
         public SelectList CountryList { get; set; }
 
         #endregion

@@ -25,8 +25,9 @@ $(document).ready(function () {
             }
         }).then(function (result) {
             if (result) {
+
                 // Submit the form programmatically
-                $('#category-delete-form').submit();  
+                $('#category-delete-form').submit();
             }
         })
     })

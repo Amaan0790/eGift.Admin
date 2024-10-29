@@ -3,7 +3,6 @@ using eGift.Admin.MVC.Helpers;
 using eGift.Admin.MVC.Models;
 using eGift.Admin.MVC.Models.ListViewModels;
 using eGift.Admin.MVC.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -13,10 +12,11 @@ namespace eGift.Admin.MVC.Controllers
     public class StateController : Controller
     {
         #region Constructors
+
         public StateController()
         {
-
         }
+
         #endregion
 
         #region State Default CRUD Actions
@@ -264,9 +264,11 @@ namespace eGift.Admin.MVC.Controllers
 
             return View();
         }
+
         #endregion
 
         #region Private Methods
+
         // Get all country
         private void GetAllCountry(StateViewModel model)
         {
@@ -296,9 +298,11 @@ namespace eGift.Admin.MVC.Controllers
             }
             return null;
         }
+
         #endregion
 
         #region Remote Validation Actions
+
         // For state name
         public IActionResult VerifyStateName(int ID, int CountryId, string StateName)
         {
@@ -326,6 +330,7 @@ namespace eGift.Admin.MVC.Controllers
 
             return Json(true);
         }
+
         #endregion
     }
 }

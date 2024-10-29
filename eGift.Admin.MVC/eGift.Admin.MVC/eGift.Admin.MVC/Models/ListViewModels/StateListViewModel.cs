@@ -21,7 +21,9 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         #endregion List View Models
 
         #region Reference View Models
+
         public StateViewModel StateModel { get; set; }
+
         #endregion
     }
 }
