@@ -9,6 +9,7 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public CityListViewModel()
         {
             CityList = new List<CityViewModel>();
+            CityModel = new CityViewModel();
         }
 
         #endregion Constructors
@@ -18,5 +19,11 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public List<CityViewModel> CityList { get; set; }
 
         #endregion List View Models
+
+        #region Reference View Models
+
+        public CityViewModel CityModel { get; set; }
+
+        #endregion
     }
 }
