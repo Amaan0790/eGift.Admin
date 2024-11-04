@@ -9,6 +9,7 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public AddressListViewModel()
         {
             AddressList = new List<AddressViewModel>();
+            AddressModel = new AddressViewModel();
         }
 
         #endregion Constructors
@@ -18,5 +19,11 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public List<AddressViewModel> AddressList { get; set; }
 
         #endregion List View Models
+
+        #region Reference View Models
+
+        public AddressViewModel AddressModel { get; set; }
+
+        #endregion
     }
 }

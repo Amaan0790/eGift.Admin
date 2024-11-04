@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace eGift.Admin.MVC.Models.ViewModels
 {
@@ -8,6 +10,9 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public AddressViewModel()
         {
+            CountryList = new SelectList("");
+            StateList = new SelectList("");
+            CityList = new SelectList("");
         }
 
         #endregion Constructors
@@ -16,11 +21,11 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public int ID { get; set; }
 
-        [Display(Name = "Street1")]
+        [Display(Name = "Street 1")]
         [Required(ErrorMessage = "This field is required.")]
         public string Street1 { get; set; }
 
-        [Display(Name = "Street2")]
+        [Display(Name = "Street 2")]
         public string? Street2 { get; set; }
 
         [Display(Name = "Country")]
@@ -52,5 +57,15 @@ namespace eGift.Admin.MVC.Models.ViewModels
         public string? CityName { get; set; }
 
         #endregion View Models
+
+        #region Dropdown Models
+
+        public SelectList CountryList { get; set; }
+
+        public SelectList StateList { get; set; }
+
+        public SelectList CityList { get; set; }
+
+        #endregion
     }
 }

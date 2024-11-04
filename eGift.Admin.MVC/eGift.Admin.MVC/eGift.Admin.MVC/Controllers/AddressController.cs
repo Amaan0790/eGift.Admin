@@ -3,92 +3,77 @@ using eGift.Admin.MVC.Helpers;
 using eGift.Admin.MVC.Models;
 using eGift.Admin.MVC.Models.ListViewModels;
 using eGift.Admin.MVC.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace eGift.Admin.MVC.Controllers
 {
-    public class CityController : Controller
+    public class AddressController : Controller
     {
         #region Constructors
-
-        public CityController()
+        public AddressController()
         {
-        }
 
+        }
         #endregion
 
-        #region City Default CRUD Actions
+        #region Address Default CRUD Actions
 
-        // GET: CityController
+        // GET: AddressController
         public ActionResult Index()
         {
-            var list = new CityListViewModel();
+            var list = new AddressListViewModel();
 
-            // Get all city
-            string response = WebAPIHelper.GetWebAPIClient("City").Result;
+            // Web api call
+            string response = WebAPIHelper.GetWebAPIClient("Address").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                list.CityList = JsonConvert.DeserializeObject<List<CityViewModel>>(response);
-
-                // Web api call
-                string stateResponse = WebAPIHelper.GetWebAPIClient("State").Result;
-                if (!string.IsNullOrEmpty(stateResponse))
+                list.AddressList = JsonConvert.DeserializeObject<List<AddressViewModel>>(response);
+                foreach (var addressItem in list.AddressList)
                 {
-                    var stateList = JsonConvert.DeserializeObject<List<StateViewModel>>(stateResponse);
-
-                    list.CityList.ForEach(x =>
-                    {
-                        x.StateName = GetStateName(x.StateId);
-                        var countryId = stateList.Where(s => s.ID == x.StateId).FirstOrDefault().CountryId;
-                        x.CountryId = countryId;
-                        x.CountryName = GetCountryName(countryId);
-                    });
+                    addressItem.CountryName = GetCountryName(addressItem.CountryId);
+                    addressItem.StateName = GetStateName(addressItem.StateId);
+                    addressItem.CityName = GetCityName(addressItem.CityId);
                 }
             }
 
             return View(list);
         }
 
-        // GET: CityController/Details/5
+        // GET: AddressController/Details/5
         public ActionResult Details(int id)
         {
-            var model = new CityViewModel();
-            string response = WebAPIHelper.GetWebAPIClient($"City/{id}").Result;
+            var model = new AddressViewModel();
+
+            // Web api call
+            string response = WebAPIHelper.GetWebAPIClient($"Address/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<CityViewModel>(response);
-
-                // Web api call
-                string stateResponse = WebAPIHelper.GetWebAPIClient($"State/{model.StateId}").Result;
-                if (!string.IsNullOrEmpty(stateResponse))
-                {
-                    // Deserialize model
-                    var state = JsonConvert.DeserializeObject<StateViewModel>(stateResponse);
-                    model.CountryId = state.CountryId;
-                    model.StateName = GetStateName(model.StateId);
-                    model.CountryName = GetCountryName(state.CountryId);
-                }
+                model = JsonConvert.DeserializeObject<AddressViewModel>(response);
+                model.CountryName = GetCountryName(model.CountryId);
+                model.StateName = GetStateName(model.StateId);
+                model.CityName = GetCityName(model.CityId);
             }
-
             return View(model);
         }
 
-        // GET: CityController/Create
+        // GET: AddressController/Create
         public ActionResult Create()
         {
-            var model = new CityViewModel();
-            GetAllCountry(model);
+            var model = new AddressViewModel();
 
-            //GetAllState(model);
+            // Get all country
+            GetAllCountry(model);
             return View(model);
         }
 
-        // POST: CityController/Create
+        // POST: AddressController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CityViewModel model)
+        public ActionResult Create(AddressViewModel model)
         {
             ToastrViewModel tosterModel = null;
             try
@@ -99,10 +84,9 @@ namespace eGift.Admin.MVC.Controllers
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Error,
-                        Message = ToastrMessages.CityCreateError.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.AddressCreateError.GetEnumDescription<ToastrMessages>()
                     };
 
-                    //TempData["ToastrModel"] = tosterModel;
                     // Serialize the model to JSON before storing it in TempData
                     TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
 
@@ -121,16 +105,15 @@ namespace eGift.Admin.MVC.Controllers
                 var modelData = JsonConvert.SerializeObject(model);
 
                 // Web API call
-                string response = WebAPIHelper.PostWebAPIClient("City", modelData).Result;
+                string response = WebAPIHelper.PostWebAPIClient("Address", modelData).Result;
                 if (!string.IsNullOrEmpty(response))
                 {
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Success,
-                        Message = ToastrMessages.CityCreateSuccess.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.AddressCreateSuccess.GetEnumDescription<ToastrMessages>()
                     };
 
-                    //TempData["ToastrModel"] = tosterModel;
                     // Serialize the model to JSON before storing it in TempData
                     TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
 
@@ -143,45 +126,33 @@ namespace eGift.Admin.MVC.Controllers
             tosterModel = new ToastrViewModel()
             {
                 Type = (int)ToastrType.Error,
-                Message = ToastrMessages.CityCreateError.GetEnumDescription<ToastrMessages>()
+                Message = ToastrMessages.AddressCreateError.GetEnumDescription<ToastrMessages>()
             };
 
-            //TempData["ToastrModel"] = tosterModel;
             // Serialize the model to JSON before storing it in TempData
             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
-
             return View();
         }
 
-        // GET: CityController/Edit/5
+        // GET: AddressController/Edit/5
         public ActionResult Edit(int id)
         {
-            var model = new CityViewModel();
+            var model = new AddressViewModel();
 
             // Web api call
-            string response = WebAPIHelper.GetWebAPIClient($"City/{id}").Result;
+            string response = WebAPIHelper.GetWebAPIClient($"Address/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<CityViewModel>(response);
-
-                // Web api call
-                string stateResponse = WebAPIHelper.GetWebAPIClient($"State/{model.StateId}").Result;
-                if (!string.IsNullOrEmpty(stateResponse))
-                {
-                    // Web api call
-                    var state = JsonConvert.DeserializeObject<StateViewModel>(stateResponse);
-                    model.CountryId = state.CountryId;
-                }
-
+                model = JsonConvert.DeserializeObject<AddressViewModel>(response);
                 GetAllCountry(model);
             }
             return View(model);
         }
 
-        // POST: CityController/Edit/5
+        // POST: AddressController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, CityViewModel model)
+        public ActionResult Edit(int id, AddressViewModel model)
         {
             ToastrViewModel tosterModel = null;
             try
@@ -192,7 +163,7 @@ namespace eGift.Admin.MVC.Controllers
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Error,
-                        Message = ToastrMessages.CityEditError.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.AddressEditError.GetEnumDescription<ToastrMessages>()
                     };
 
                     //TempData["ToastrModel"] = tosterModel;
@@ -202,6 +173,7 @@ namespace eGift.Admin.MVC.Controllers
                     return View(model);
                 }
 
+                // For edit
                 if (model.ID > 0)
                 {
                     model.UpdatedBy = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
@@ -212,16 +184,15 @@ namespace eGift.Admin.MVC.Controllers
                 var modelData = JsonConvert.SerializeObject(model);
 
                 // Web client api call
-                string response = WebAPIHelper.PutWebAPIClient($"City/{model.ID}", modelData).Result;
+                string response = WebAPIHelper.PutWebAPIClient($"Address/{model.ID}", modelData).Result;
                 if (!string.IsNullOrEmpty(response))
                 {
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Success,
-                        Message = ToastrMessages.CityEditSuccess.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.AddressEditSuccess.GetEnumDescription<ToastrMessages>()
                     };
 
-                    //TempData["ToastrModel"] = tosterModel;
                     // Serialize the model to JSON before storing it in TempData
                     TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
 
@@ -234,43 +205,35 @@ namespace eGift.Admin.MVC.Controllers
             tosterModel = new ToastrViewModel()
             {
                 Type = (int)ToastrType.Error,
-                Message = ToastrMessages.CityEditError.GetEnumDescription<ToastrMessages>()
+                Message = ToastrMessages.AddressEditError.GetEnumDescription<ToastrMessages>()
             };
 
-            //TempData["ToastrModel"] = tosterModel;
             // Serialize the model to JSON before storing it in TempData
             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
             return View();
         }
 
-        // GET: CityController/Delete/5
+        // GET: AddressController/Delete/5
         public ActionResult Delete(int id)
         {
             // pass session variable to view
             ViewBag.UserID = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
 
-            var model = new CityViewModel();
-            string response = WebAPIHelper.GetWebAPIClient($"City/{id}").Result;
+            var model = new AddressViewModel();
+
+            // Web api call
+            string response = WebAPIHelper.GetWebAPIClient($"Address/{id}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                model = JsonConvert.DeserializeObject<CityViewModel>(response);
-
-                // Web api call
-                string stateResponse = WebAPIHelper.GetWebAPIClient($"State/{model.StateId}").Result;
-                if (!string.IsNullOrEmpty(stateResponse))
-                {
-                    // Deserialize model
-                    var state = JsonConvert.DeserializeObject<StateViewModel>(stateResponse);
-                    model.CountryId = state.CountryId;
-                    model.StateName = GetStateName(model.StateId);
-                    model.CountryName = GetCountryName(state.CountryId);
-                }
+                model = JsonConvert.DeserializeObject<AddressViewModel>(response);
+                model.CountryName = GetCountryName(model.CountryId);
+                model.StateName = GetStateName(model.StateId);
+                model.CityName = GetCityName(model.CityId);
             }
-
             return View(model);
         }
 
-        // POST: CityController/Delete/5
+        // POST: AddressController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, int loginUserId)
@@ -279,16 +242,17 @@ namespace eGift.Admin.MVC.Controllers
             try
             {
                 loginUserId = Convert.ToInt32(HttpContext.Session.GetInt32("UserID"));
-                string response = WebAPIHelper.DeleteWebAPIClient($"City/{id}?loginUserId={loginUserId}").Result;
+
+                // Web api call
+                string response = WebAPIHelper.DeleteWebAPIClient($"Address/{id}?loginUserId={loginUserId}").Result;
                 if (!string.IsNullOrEmpty(response))
                 {
                     tosterModel = new ToastrViewModel()
                     {
                         Type = (int)ToastrType.Success,
-                        Message = ToastrMessages.CityDeleteSuccess.GetEnumDescription<ToastrMessages>()
+                        Message = ToastrMessages.AddressDeleteSuccess.GetEnumDescription<ToastrMessages>()
                     };
 
-                    //TempData["ToastrModel"] = tosterModel;
                     // Serialize the model to JSON before storing it in TempData
                     TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
 
@@ -301,23 +265,20 @@ namespace eGift.Admin.MVC.Controllers
             tosterModel = new ToastrViewModel()
             {
                 Type = (int)ToastrType.Error,
-                Message = ToastrMessages.CityDeleteError.GetEnumDescription<ToastrMessages>()
+                Message = ToastrMessages.AddressDeleteError.GetEnumDescription<ToastrMessages>()
             };
 
-            //TempData["ToastrModel"] = tosterModel;
             // Serialize the model to JSON before storing it in TempData
             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
-
             return View();
         }
-
         #endregion
 
         #region Private Methods
-
         // Get all country
-        private void GetAllCountry(CityViewModel model)
+        private void GetAllCountry(AddressViewModel model)
         {
+            // Web api call
             string response = WebAPIHelper.GetWebAPIClient("Country").Result;
             if (!string.IsNullOrEmpty(response))
             {
@@ -329,57 +290,53 @@ namespace eGift.Admin.MVC.Controllers
         }
 
         // Get country name
-        private string GetCountryName(int id)
+        private string GetCountryName(int countryId)
         {
-            string response = WebAPIHelper.GetWebAPIClient("Country").Result;
+            // Web api call
+            string response = WebAPIHelper.GetWebAPIClient($"Country/{countryId}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                var countryList = JsonConvert.DeserializeObject<List<CountryViewModel>>(response);
+                var country = JsonConvert.DeserializeObject<CountryViewModel>(response);
 
-                // Find the country with the matching ID
-                var country = countryList.FirstOrDefault(x => x.ID == id);
-
-                // Return the country name if found, otherwise return null
-                return country?.CountryName;
+                // Return the country name
+                return country.CountryName;
             }
             return null;
-        }
-
-        // Get all state
-        private void GetAllState(CityViewModel model)
-        {
-            string response = WebAPIHelper.GetWebAPIClient("State").Result;
-            if (!string.IsNullOrEmpty(response))
-            {
-                var stateList = JsonConvert.DeserializeObject<List<StateViewModel>>(response);
-
-                // Create a SelectList
-                model.StateList = new SelectList(stateList, "ID", "StateName");
-            }
         }
 
         // Get state name
-        private string GetStateName(int id)
+        private string GetStateName(int stateId)
         {
-            string response = WebAPIHelper.GetWebAPIClient("State").Result;
+            // Web api call
+            string response = WebAPIHelper.GetWebAPIClient($"State/{stateId}").Result;
             if (!string.IsNullOrEmpty(response))
             {
-                var stateList = JsonConvert.DeserializeObject<List<StateViewModel>>(response);
+                var state = JsonConvert.DeserializeObject<StateViewModel>(response);
 
-                // Find the state with the matching ID
-                var state = stateList.FirstOrDefault(x => x.ID == id);
-
-                // Return the state name if found, otherwise return null
-                return state?.StateName;
+                // Return the state name
+                return state.StateName;
             }
             return null;
         }
 
+        // Get city name
+        private string GetCityName(int cityId)
+        {
+            // Web api call
+            string response = WebAPIHelper.GetWebAPIClient($"City/{cityId}").Result;
+            if (!string.IsNullOrEmpty(response))
+            {
+                var city = JsonConvert.DeserializeObject<CityViewModel>(response);
+
+                // Return the city name
+                return city.CityName;
+            }
+            return null;
+        }
         #endregion
 
         #region Ajax Actions
-
-        // GET: CityController/GetStatesByCountry/5
+        // GET: AddressController/GetStatesByCountry/5
         public ActionResult GetStatesByCountry(int countryId)
         {
             List<StateViewModel> stateList = null;
@@ -395,38 +352,21 @@ namespace eGift.Admin.MVC.Controllers
             return Json(stateList);
         }
 
-        #endregion
-
-        #region Remote Validation Actions
-
-        // For city name
-        public IActionResult VerifyCityName(int ID, int StateId, string CityName)
+        // GET: AddressController/GetCitiesByState/5
+        public ActionResult GetCitiesByState(int stateId)
         {
-            // Web client api call
-            string isExistResponse = WebAPIHelper.GetWebAPIClient($"City/VerifyCityName?id={ID}&stateId={StateId}&cityName={CityName}").Result;
+            List<CityViewModel> cityList = null;
 
-            if (Convert.ToBoolean(isExistResponse))
+            // Web API call
+            string response = WebAPIHelper.GetWebAPIClient($"City/GetCitiesByState/{stateId}").Result;
+            if (!string.IsNullOrEmpty(response))
             {
-                return Json($"City name {CityName} is already exist.");
+                cityList = JsonConvert.DeserializeObject<List<CityViewModel>>(response);
+                return Json(cityList);
             }
 
-            return Json(true);
+            return Json(cityList);
         }
-
-        // For city code
-        public IActionResult VerifyCityCode(int ID, int StateId, string CityCode)
-        {
-            // Web client api call
-            string isExistResponse = WebAPIHelper.GetWebAPIClient($"City/VerifyCityCode?id={ID}&stateId={StateId}&cityCode={CityCode}").Result;
-
-            if (Convert.ToBoolean(isExistResponse))
-            {
-                return Json($"City code {CityCode} is already exist.");
-            }
-
-            return Json(true);
-        }
-
         #endregion
     }
 }

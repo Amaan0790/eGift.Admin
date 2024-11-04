@@ -205,6 +205,25 @@ namespace eGift.Admin.MVC.Common
 
         [Description("Unable to delete city.")]
         CityDeleteError = 47,
+
+        // Address
+        [Description("Address created successfully.")]
+        AddressCreateSuccess = 48,
+
+        [Description("Unable to create address.")]
+        AddressCreateError = 49,
+
+        [Description("Address edited successfully.")]
+        AddressEditSuccess = 50,
+
+        [Description("Unable to edit address.")]
+        AddressEditError = 51,
+
+        [Description("Address deleted successfully.")]
+        AddressDeleteSuccess = 52,
+
+        [Description("Unable to delete address.")]
+        AddressDeleteError = 53,
     }
 
     #endregion

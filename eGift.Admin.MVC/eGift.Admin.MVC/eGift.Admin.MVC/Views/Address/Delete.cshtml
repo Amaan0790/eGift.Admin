@@ -1,0 +1,71 @@
+﻿@model eGift.Admin.MVC.Models.ViewModels.AddressViewModel
+
+@{
+    ViewData["Title"] = "Address";
+    ViewData["SubTitle"] = "Delete";
+    int loginUserId = ViewBag.UserID;
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>@ViewData["SubTitle"]</h4>
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div>
+            <dl class="col-sm-12">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CountryName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CountryName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.StateName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.StateName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CityName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CityName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Street1)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Street1)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Street2)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Street2)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Pincode)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Pincode)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <form id="address-delete-form" asp-action="Delete">
+        <input type="hidden" id="id" name="id" value="@Model.ID" />
+        <input type="hidden" id="loginUserId" name="loginUserId" value="@loginUserId" />
+
+        <input id="address-delete-button" type="button" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+
+<script src="~/js/pages/address.js"></script>
