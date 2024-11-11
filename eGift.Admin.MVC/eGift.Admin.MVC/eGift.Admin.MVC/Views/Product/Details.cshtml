@@ -1,0 +1,184 @@
+﻿@model eGift.Admin.MVC.Models.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Product";
+    ViewData["SubTitle"] = "Details";
+    var defaultImageUrl = Url.Content("~/images/default/default-product-image.png");
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>@ViewData["SubTitle"]</h4>
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div>
+            <dl class="col-sm-12">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CategoryName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.SubCategoryName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.SubCategoryName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.QuantityPerUnit)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.QuantityPerUnit)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.UnitPrice)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UnitPrice)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.SizeName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.SizeName)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Discount)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Discount)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.UnitInStock)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UnitInStock)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.UnitInOrder)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UnitInOrder)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ProductAvailable)
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.UnitInStock > 0)
+                    {
+                        <span class="badge rounded-pill bg-success">Available</span>
+                    }
+                    else
+                    {
+                        <span class="badge rounded-pill bg-danger">Out Of Stock</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.ShortDescription)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ShortDescription)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LongDescription)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LongDescription)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.PictureData1)
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.PictureData1 != null)
+                    {
+                        <img src="data:image/*;base64,@Convert.ToBase64String(Model.PictureData1)" class="product-image" />
+                    }
+                    else
+                    {
+                        <img src="@defaultImageUrl" class="product-image" />
+                    }
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.PictureData2)
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.PictureData2 != null)
+                    {
+                        <img src="data:image/*;base64,@Convert.ToBase64String(Model.PictureData2)" class="product-image" />
+                    }
+                    else
+                    {
+                        <img src="@defaultImageUrl" class="product-image" />
+                    }
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.PictureData3)
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.PictureData3 != null)
+                    {
+                        <img src="data:image/*;base64,@Convert.ToBase64String(Model.PictureData3)" class="product-image" />
+                    }
+                    else
+                    {
+                        <img src="@defaultImageUrl" class="product-image" />
+                    }
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.PictureData4)
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.PictureData4 != null)
+                    {
+                        <img src="data:image/*;base64,@Convert.ToBase64String(Model.PictureData4)" class="product-image" />
+                    }
+                    else
+                    {
+                        <img src="@defaultImageUrl" class="product-image" />
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="mb-2 align-text-center">
+            @if (Model.ProductImageData != null)
+            {
+                <img src="data:image/*;base64,@Convert.ToBase64String(Model.ProductImageData)" class="profile-image" />
+            }
+            else
+            {
+                <img src="@defaultImageUrl" class="profile-image" />
+            }
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID" title="Edit" class="btn btn-primary">
+        Edit
+    </a> |
+    <a asp-action="Index">Back to List</a>
+</div>

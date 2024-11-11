@@ -29,6 +29,38 @@ namespace eGift.Admin.MVC.Common
         Admin = 3
     }
 
+    public enum Size
+    {
+        [Description("Extra Small")]
+        XS = 1,
+
+        [Description("Small")]
+        S = 2,
+
+        [Description("Medium")]
+        M = 3,
+
+        [Description("Large")]
+        L = 4,
+
+        [Description("Extra Large")]
+        XL = 5,
+
+        [Description("2X Large")]
+        XXL = 6,
+
+        [Description("3X Large")]
+        XXXL = 7,
+
+        [Description("4X Large")]
+        XXXXL = 8,
+
+        [Description("5X Large")]
+        XXXXXL = 9,
+
+        [Description("One Size")]
+        OneSize = 10
+    }
     #endregion
 
     #region Toastr
@@ -224,6 +256,25 @@ namespace eGift.Admin.MVC.Common
 
         [Description("Unable to delete address.")]
         AddressDeleteError = 53,
+
+        // Product
+        [Description("Product created successfully.")]
+        ProductCreateSuccess = 54,
+
+        [Description("Unable to create product.")]
+        ProductCreateError = 55,
+
+        [Description("Product edited successfully.")]
+        ProductEditSuccess = 56,
+
+        [Description("Unable to edit product.")]
+        ProductEditError = 57,
+
+        [Description("Product deleted successfully.")]
+        ProductDeleteSuccess = 58,
+
+        [Description("Unable to delete product.")]
+        ProductDeleteError = 59,
     }
 
     #endregion

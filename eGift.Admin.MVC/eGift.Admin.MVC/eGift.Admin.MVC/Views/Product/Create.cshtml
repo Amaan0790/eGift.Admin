@@ -1,0 +1,180 @@
+﻿@model eGift.Admin.MVC.Models.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Product";
+    ViewData["SubTitle"] = "Create";
+    var defaultImageUrl = Url.Content("~/images/default/default-product-image.png");
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>@ViewData["SubTitle"]</h4>
+<hr />
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label required"></label>
+                <select asp-for="CategoryId" asp-items="Model.CategoryList" class="form-control">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SubCategoryId" class="control-label required"></label>
+                <select asp-for="SubCategoryId" asp-items="Model.SubCategoryList" data-subCategoryId="@Model.SubCategoryId" class="form-control">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label required"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="QuantityPerUnit" class="control-label"></label>
+                <input asp-for="QuantityPerUnit" class="form-control" />
+                <span asp-validation-for="QuantityPerUnit" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UnitPrice" class="control-label required"></label>
+                <input asp-for="UnitPrice" class="form-control" />
+                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SizeId" class="control-label"></label>
+                <select asp-for="SizeId" asp-items="@Model.SizeList" class="form-control">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="SizeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="UnitInStock" class="control-label"></label>
+                <input asp-for="UnitInStock" class="form-control" />
+                <span asp-validation-for="UnitInStock" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ShortDescription" class="control-label"></label>
+                <textarea asp-for="ShortDescription" class="form-control" rows="5" cols="50"></textarea>
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LongDescription" class="control-label"></label>
+                <textarea asp-for="LongDescription" class="form-control" rows="7" cols="50"></textarea>
+                <span asp-validation-for="LongDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label asp-for="Picture1" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    <label class="btn btn-primary">
+                        <i class="fa fa-folder-open"></i> Browse
+                        <input id="picture1" asp-for="@Model.Picture1" type="file" hidden />
+                    </label>
+                    <label id="picture1-btn" type="button" class="btn btn-danger"><i class="fa fa-remove"></i>Clear</label>
+                </div>
+                <div class="col-md-3">
+                    <img id="picture1-preview" src="@defaultImageUrl" class="product-image" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label asp-for="Picture2" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    <label class="btn btn-primary">
+                        <i class="fa fa-folder-open"></i> Browse
+                        <input id="picture2" asp-for="@Model.Picture2" type="file" hidden />
+                    </label>
+                    <label id="picture2-btn" type="button" class="btn btn-danger"><i class="fa fa-remove"></i>Clear</label>
+                </div>
+                <div class="col-md-3">
+                    <img id="picture2-preview" src="@defaultImageUrl" class="product-image" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label asp-for="Picture3" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    <label class="btn btn-primary">
+                        <i class="fa fa-folder-open"></i> Browse
+                        <input id="picture3" asp-for="@Model.Picture3" type="file" hidden />
+                    </label>
+                    <label id="picture3-btn" type="button" class="btn btn-danger"><i class="fa fa-remove"></i>Clear</label>
+                </div>
+                <div class="col-md-3">
+                    <img id="picture3-preview" src="@defaultImageUrl" class="product-image" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label asp-for="Picture4" class="control-label"></label>
+                </div>
+                <div class="col-md-6">
+                    <label class="btn btn-primary">
+                        <i class="fa fa-folder-open"></i> Browse
+                        <input id="picture4" asp-for="@Model.Picture4" type="file" hidden />
+                    </label>
+                    <label id="picture4-btn" type="button" class="btn btn-danger"><i class="fa fa-remove"></i>Clear</label>
+                </div>
+                <div class="col-md-3">
+                    <img id="picture4-preview" src="@defaultImageUrl" class="product-image" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-2 align-text-center">
+                <img id="product-profile-image-preview" src="@defaultImageUrl" class="profile-image" />
+            </div>
+            <div class="mb-2 align-text-center">
+                <label class="btn btn-primary">
+                    <i class="fa fa-folder-open"></i> Browse
+                    <input id="product-profile-image" asp-for="@Model.ImageUrl" type="file" hidden />
+                </label>
+                <label id="product-clear-btn" type="button" class="btn btn-danger"><i class="fa fa-remove"></i>Clear</label>
+            </div>
+            <div class="mb-2 align-text-center">
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<script src="~/js/pages/product.js"></script>
