@@ -61,6 +61,7 @@ namespace eGift.Admin.MVC.Common
         [Description("One Size")]
         OneSize = 10
     }
+
     #endregion
 
     #region Toastr

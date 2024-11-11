@@ -1,9 +1,8 @@
-﻿using eGift.Admin.MVC.Helpers;
+﻿using eGift.Admin.MVC.Common;
+using eGift.Admin.MVC.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-//using System.Drawing;
-using eGift.Admin.MVC.Common;
-using Microsoft.AspNetCore.Mvc;
 
 namespace eGift.Admin.MVC.Models.ViewModels
 {
@@ -128,8 +127,11 @@ namespace eGift.Admin.MVC.Models.ViewModels
         #endregion View Models
 
         #region Dropdown Models
+
         public SelectList CategoryList { get; set; }
+
         public SelectList SubCategoryList { get; set; }
+
         public SelectList SizeList { get; set; }
 
         #endregion

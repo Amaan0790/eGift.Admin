@@ -3,10 +3,8 @@ using eGift.Admin.MVC.Helpers;
 using eGift.Admin.MVC.Models;
 using eGift.Admin.MVC.Models.ListViewModels;
 using eGift.Admin.MVC.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Mono.TextTemplating;
 using Newtonsoft.Json;
 
 namespace eGift.Admin.MVC.Controllers
@@ -16,7 +14,6 @@ namespace eGift.Admin.MVC.Controllers
         #region Constructors
         public ProductController()
         {
-
         }
         #endregion
 
@@ -169,7 +166,6 @@ namespace eGift.Admin.MVC.Controllers
                     }
                     else
                     {
-
                         // Model to json string
                         var modelData = JsonConvert.SerializeObject(model);
 
@@ -426,8 +422,9 @@ namespace eGift.Admin.MVC.Controllers
             return View();
         }
         #endregion
-        
+
         #region Ajax Actions
+
         // GET: ProductController/GetSubCategoriesByCategory/5
         public ActionResult GetSubCategoriesByCategory(int categoryId)
         {
@@ -446,6 +443,7 @@ namespace eGift.Admin.MVC.Controllers
         #endregion
 
         #region Private Methods
+
         // Get All Category
         private void GetAllCategory(ProductViewModel model)
         {

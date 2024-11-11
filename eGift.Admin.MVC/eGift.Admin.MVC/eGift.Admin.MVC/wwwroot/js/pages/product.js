@@ -1,6 +1,5 @@
 ﻿// On Page Load
 $(document).ready(function () {
-
     var _categoryId = $('#CategoryId').val();
     var _subCategoryId = $('#SubCategoryId').attr('data-subCategoryId');
 
@@ -55,6 +54,7 @@ $(document).ready(function () {
 
     // For picture 1 image clear button
     $('#picture1-btn').on('click', function () {
+
         // Call Image Clear
         ImageClear('picture1-preview', 'picture1');
     });
@@ -69,6 +69,7 @@ $(document).ready(function () {
 
     // For picture 2 image clear button
     $('#picture2-btn').on('click', function () {
+
         // Call Image Clear
         ImageClear('picture2-preview', 'picture2');
     });
@@ -83,6 +84,7 @@ $(document).ready(function () {
 
     // For picture 3 image clear button
     $('#picture3-btn').on('click', function () {
+
         // Call Image Clear
         ImageClear('picture3-preview', 'picture3');
     });
@@ -97,6 +99,7 @@ $(document).ready(function () {
 
     // For picture 4 image clear button
     $('#picture4-btn').on('click', function () {
+
         // Call Image Clear
         ImageClear('picture4-preview', 'picture4');
     });

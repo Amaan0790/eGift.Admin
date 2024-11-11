@@ -3,11 +3,9 @@ using eGift.Admin.MVC.Helpers;
 using eGift.Admin.MVC.Models;
 using eGift.Admin.MVC.Models.ListViewModels;
 using eGift.Admin.MVC.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace eGift.Admin.MVC.Controllers
 {
@@ -16,7 +14,6 @@ namespace eGift.Admin.MVC.Controllers
         #region Constructors
         public AddressController()
         {
-
         }
         #endregion
 
@@ -275,6 +272,7 @@ namespace eGift.Admin.MVC.Controllers
         #endregion
 
         #region Private Methods
+
         // Get all country
         private void GetAllCountry(AddressViewModel model)
         {
@@ -336,6 +334,7 @@ namespace eGift.Admin.MVC.Controllers
         #endregion
 
         #region Ajax Actions
+
         // GET: AddressController/GetStatesByCountry/5
         public ActionResult GetStatesByCountry(int countryId)
         {
