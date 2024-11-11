@@ -13,6 +13,7 @@ namespace eGift.Admin.MVC.Models.ViewModels
         public EmployeeViewModel()
         {
             GenderList = EnumHelper.EnumNameToSelectList<Gender>();
+            AddressList = new SelectList("");
             LoginModel = new LoginViewModel();
         }
 
@@ -102,6 +103,7 @@ namespace eGift.Admin.MVC.Models.ViewModels
         #region Dropdown Lists
 
         public SelectList GenderList { get; set; }
+        public SelectList AddressList { get; set; }
 
         #endregion
     }

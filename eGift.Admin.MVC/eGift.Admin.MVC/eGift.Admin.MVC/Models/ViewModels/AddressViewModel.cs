@@ -55,6 +55,9 @@ namespace eGift.Admin.MVC.Models.ViewModels
         [Display(Name = "City")]
         public string? CityName { get; set; }
 
+        [Display(Name = "Full Address")]
+        public string? FullAddress { get; set; }
+
         #endregion View Models
 
         #region Dropdown Models
