@@ -4,6 +4,7 @@ using eGift.Admin.MVC.Models;
 using eGift.Admin.MVC.Models.ListViewModels;
 using eGift.Admin.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace eGift.Admin.MVC.Controllers
@@ -45,6 +46,9 @@ namespace eGift.Admin.MVC.Controllers
                 model.GenderName = ((Gender)model.GenderId).ToString();
                 model.RoleName = (((Role)model.RoleId).ToString());
                 model.Age = CalculateAge(model.DateOfBirth);
+
+                // Call Get Full Address
+                GetFullAddress(model);
             }
 
             return View(model);
@@ -54,6 +58,10 @@ namespace eGift.Admin.MVC.Controllers
         public ActionResult Create()
         {
             var model = new CustomerViewModel();
+
+            // Call Get All Address
+            GetAllAddress(model);
+
             return View(model);
         }
 
@@ -77,6 +85,9 @@ namespace eGift.Admin.MVC.Controllers
                     //TempData["ToastrModel"] = tosterModel;
                     // Serialize the model to JSON before storing it in TempData
                     TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
+
+                    // Call Get All Address
+                    GetAllAddress(model);
 
                     return View(model);
                 }
@@ -158,6 +169,9 @@ namespace eGift.Admin.MVC.Controllers
             // Serialize the model to JSON before storing it in TempData
             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
 
+            // Call Get All Address
+            GetAllAddress(model);
+
             return View(model);
         }
 
@@ -179,6 +193,9 @@ namespace eGift.Admin.MVC.Controllers
                     model.LoginModel = loginModel;
                     model.UserName = loginModel.UserName;
                 }
+
+                // Call Get All Address
+                GetAllAddress(model);
             }
             return View(model);
         }
@@ -203,6 +220,9 @@ namespace eGift.Admin.MVC.Controllers
                     //TempData["ToastrModel"] = tosterModel;
                     // Serialize the model to JSON before storing it in TempData
                     TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
+
+                    // Call Get All Address
+                    GetAllAddress(model);
 
                     return View(model);
                 }
@@ -288,6 +308,9 @@ namespace eGift.Admin.MVC.Controllers
             // Serialize the model to JSON before storing it in TempData
             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
 
+            // Call Get All Address
+            GetAllAddress(model);
+
             return View(model);
         }
 
@@ -314,6 +337,9 @@ namespace eGift.Admin.MVC.Controllers
 
                     model.LoginModel = loginModel;
                 }
+
+                // Call Get Full Address
+                GetFullAddress(model);
             }
             return View(model);
         }
@@ -382,6 +408,34 @@ namespace eGift.Admin.MVC.Controllers
                 }
 
                 return age;
+            }
+        }
+
+        // Get All Address
+        public void GetAllAddress(CustomerViewModel model)
+        {
+            // Web api call
+            var response = WebAPIHelper.GetWebAPIClient("Address").Result;
+            if(response != null)
+            {
+                var addressList = JsonConvert.DeserializeObject<List<AddressViewModel>>(response);
+
+                // Create a SelectList
+                model.AddressList = new SelectList(addressList, "ID", "FullAddress");
+            }
+        }
+
+        // Get Full Address
+        public void GetFullAddress(CustomerViewModel model)
+        {
+            // Web api call
+            var response = WebAPIHelper.GetWebAPIClient($"Address/{model.AddressId}").Result;
+            if (response != null)
+            {
+                var addressModel = JsonConvert.DeserializeObject<AddressViewModel>(response);
+
+                // Assign AddressName
+                model.AddressName = addressModel?.FullAddress;
             }
         }
 
