@@ -12,9 +12,11 @@ namespace eGift.Admin.MVC.Controllers
     public class ProductController : Controller
     {
         #region Constructors
+
         public ProductController()
         {
         }
+
         #endregion
 
         #region Product Default CRUD Actions
@@ -421,6 +423,7 @@ namespace eGift.Admin.MVC.Controllers
             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
             return View();
         }
+
         #endregion
 
         #region Ajax Actions
@@ -440,6 +443,7 @@ namespace eGift.Admin.MVC.Controllers
 
             return Json(subCategoryList);
         }
+
         #endregion
 
         #region Private Methods
@@ -497,9 +501,11 @@ namespace eGift.Admin.MVC.Controllers
                 }
             }
         }
+
         #endregion
 
         #region Remote Validation Actions
+
         public ActionResult VerifyProductName(int ID, int CategoryId, int SubCategoryId, string Name)
         {
             // Web client api call
@@ -512,6 +518,7 @@ namespace eGift.Admin.MVC.Controllers
 
             return Json(true);
         }
+
         #endregion
     }
 }

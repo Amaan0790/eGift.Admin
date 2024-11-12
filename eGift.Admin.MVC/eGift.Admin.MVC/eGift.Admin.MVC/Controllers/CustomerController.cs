@@ -416,7 +416,7 @@ namespace eGift.Admin.MVC.Controllers
         {
             // Web api call
             var response = WebAPIHelper.GetWebAPIClient("Address").Result;
-            if(response != null)
+            if (response != null)
             {
                 var addressList = JsonConvert.DeserializeObject<List<AddressViewModel>>(response);
 

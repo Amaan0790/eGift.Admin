@@ -12,9 +12,11 @@ namespace eGift.Admin.MVC.Controllers
     public class AddressController : Controller
     {
         #region Constructors
+
         public AddressController()
         {
         }
+
         #endregion
 
         #region Address Default CRUD Actions
@@ -269,6 +271,7 @@ namespace eGift.Admin.MVC.Controllers
             TempData["ToastrModel"] = JsonConvert.SerializeObject(tosterModel);
             return View();
         }
+
         #endregion
 
         #region Private Methods
@@ -331,6 +334,7 @@ namespace eGift.Admin.MVC.Controllers
             }
             return null;
         }
+
         #endregion
 
         #region Ajax Actions
@@ -366,6 +370,7 @@ namespace eGift.Admin.MVC.Controllers
 
             return Json(cityList);
         }
+
         #endregion
     }
 }
