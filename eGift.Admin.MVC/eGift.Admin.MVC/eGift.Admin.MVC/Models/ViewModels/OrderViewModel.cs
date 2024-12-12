@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using eGift.Admin.MVC.Common;
+using eGift.Admin.MVC.Helpers;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace eGift.Admin.MVC.Models.ViewModels
 {
@@ -8,6 +11,7 @@ namespace eGift.Admin.MVC.Models.ViewModels
 
         public OrderViewModel()
         {
+            StatusList = EnumHelper.EnumNameToSelectList<Status>();
         }
 
         #endregion Constructors
@@ -20,34 +24,37 @@ namespace eGift.Admin.MVC.Models.ViewModels
         [Required]
         public int CustomerId { get; set; }
 
-        [Display(Name = "TotalAmount")]
+        [Display(Name = "Total Amount")]
         [Required]
         public decimal TotalAmount { get; set; }
 
-        [Display(Name = "TotalDiscount")]
+        [Display(Name = "Total Discount")]
         public decimal? TotalDiscount { get; set; }
 
-        [Display(Name = "TotalTax")]
+        [Display(Name = "Total Tax")]
         public decimal? TotalTax { get; set; }
 
-        [Display(Name = "OrderNumber")]
+        [Display(Name = "Order Number")]
         [Required]
         public string OrderNumber { get; set; }
 
         [Display(Name = "Notes")]
         public string? Notes { get; set; }
 
-        [Display(Name = "DispatchedDate")]
+        [Display(Name = "Dispatched Date")]
         public DateTime? DispatchedDate { get; set; }
 
-        [Display(Name = "ShippedDate")]
+        [Display(Name = "Shipped Date")]
         public DateTime? ShippedDate { get; set; }
 
-        [Display(Name = "DeliveryDate")]
+        [Display(Name = "Delivery Date")]
         public DateTime? DeliveryDate { get; set; }
 
-        [Display(Name = "CancelDate")]
+        [Display(Name = "Cancel Date")]
         public DateTime? CancelDate { get; set; }
+
+        [Display(Name = "Cancel Date")]
+        public DateTime? CompletedDate { get; set; }
 
         [Display(Name = "Status")]
         [Required]
@@ -60,9 +67,21 @@ namespace eGift.Admin.MVC.Models.ViewModels
         [Display(Name = "Status")]
         public string? StatusName { get; set; }
 
-        [Display(Name = "CustomerName")]
+        [Display(Name = "Customer Name")]
         public string? CustomerName { get; set; }
 
+        [Display(Name = "Contact Number")]
+        public string? MobileNumber { get; set; }
+
+        [Display(Name = "Customer Address")]
+        public string? Address { get; set; }
+
         #endregion View Models
+
+        #region Dropdown List Models
+
+        public SelectList StatusList { get; set; }
+
+        #endregion
     }
 }

@@ -24,7 +24,7 @@ namespace eGift.Admin.MVC.Models.ViewModels
         [Required]
         public int ProductId { get; set; }
 
-        [Display(Name = "UnitPrice")]
+        [Display(Name = "Unit Price")]
         [Required]
         public decimal UnitPrice { get; set; }
 
@@ -38,10 +38,17 @@ namespace eGift.Admin.MVC.Models.ViewModels
         [Display(Name = "Tax")]
         public decimal? Tax { get; set; }
 
-        [Display(Name = "NetAmount")]
+        [Display(Name = "Price")]
         [Required]
         public decimal NetAmount { get; set; }
 
         #endregion Data Models
+
+        #region View Models
+
+        [Display(Name = "Product Name")]
+        public string? ProductName { get; set; }
+
+        #endregion
     }
 }

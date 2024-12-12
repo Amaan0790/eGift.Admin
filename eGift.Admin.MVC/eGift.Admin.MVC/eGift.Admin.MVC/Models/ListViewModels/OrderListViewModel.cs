@@ -9,6 +9,7 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public OrderListViewModel()
         {
             OrderList = new List<OrderViewModel>();
+            OrderModel = new OrderViewModel();
         }
 
         #endregion Constructors
@@ -18,5 +19,11 @@ namespace eGift.Admin.MVC.Models.ListViewModels
         public List<OrderViewModel> OrderList { get; set; }
 
         #endregion List View Models
+
+        #region Reference View Models
+
+        public OrderViewModel OrderModel { get; set; }
+
+        #endregion
     }
 }

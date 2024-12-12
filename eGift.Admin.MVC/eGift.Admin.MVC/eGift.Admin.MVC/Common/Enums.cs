@@ -62,6 +62,27 @@ namespace eGift.Admin.MVC.Common
         OneSize = 10
     }
 
+    public enum Status
+    {
+        [Description("New")]
+        New = 1,
+
+        [Description("Dispatched")]
+        Dispatched = 2,
+
+        [Description("Shipped")]
+        Shipped = 3,
+
+        [Description("Delivered")]
+        Delivered = 4,
+
+        [Description("Cancelled")]
+        Cancelled = 5,
+
+        [Description("Completed")]
+        Completed = 6,
+    }
+
     #endregion
 
     #region Toastr
@@ -276,6 +297,13 @@ namespace eGift.Admin.MVC.Common
 
         [Description("Unable to delete product.")]
         ProductDeleteError = 59,
+
+        // Order
+        [Description("Order updated successfully.")]
+        OrderUpdateSuccess = 60,
+
+        [Description("Unable to update order.")]
+        OrderUpdateError = 61,
     }
 
     #endregion
